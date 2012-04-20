@@ -1,0 +1,22 @@
+<?php
+/**
+ * ${clazz.name}
+ */
+class ${clazz.name} {
+## フィールド
+#foreach($attr in $clazz.attributes)
+#if(!$attr.association)
+	${tools.getVisibilityString($attr)} ${tools.getFieldString($attr)};
+#end
+#end
+## メソッド
+#foreach($operation in $clazz.operations)
+
+	${tools.getVisibilityString($operation)} function ${tools.getOperationString($operation)}(${tools.createParameterString($operation.parameters)}) {
+#set($return = $tools.getReturnString($operation))
+#if("" != $return)
+		return ${return};
+#end
+	}
+#end
+}

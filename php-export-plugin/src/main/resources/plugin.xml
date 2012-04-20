@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+   <extension point="com.change_vision.astah.ui.actionSets">
+      <actionSet
+            label="%action_set_label"
+            visible="true"
+            id="dsk.php-export-plugin.actionSet">
+         <menu
+               id="php-export-plugin"
+               label="%menu_group"
+               path="tool/php-export-plugin">
+         </menu>
+         <action
+			   label="%menu_label"
+               icon="icons/sample.gif"
+               class="dsk.php_export.plugin.action.PhpExportAction"
+               tooltip="%menu_tooltip"
+               menubarPath="tool/php-export-plugin/"
+               id="php-export-plugin">
+         </action>
+     </actionSet>
+   </extension>
+</plugin>
