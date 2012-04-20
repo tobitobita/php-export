@@ -9,11 +9,11 @@ Downloads‚æ‚èphp-export-plugin-x.x.x.jar‚ðƒ_ƒEƒ“ƒ[ƒh‚µApluginsƒtƒHƒ‹ƒ_‚ÉƒRƒs
 TODO
 ==========
 –â“š–³—p‚Å‚·‚×‚Ä‚ÌƒNƒ‰ƒX‚ðo—Í‚·‚é
--> ‘I‘ð‚³‚ê‚½ƒNƒ‰ƒX‚Ì‚Ýo—Í‚µ‚½‚¢B
+ -> ‘I‘ð‚³‚ê‚½ƒNƒ‰ƒX‚Ì‚Ýo—Í‚µ‚½‚¢B
 
 eƒNƒ‰ƒX‚ðŒ©‚Ä‚¢‚È‚¢
--> extends‚âimplements‚ðo—Í‚·‚é‚æ‚¤‚É‚µ‚Ü‚·B
+ -> extends‚âimplements‚ðo—Í‚·‚é‚æ‚¤‚É‚µ‚Ü‚·B
 
 ‚»‚à‚»‚ào—Í‚µ‚½PHP‚ª³‚µ‚¢‚©ŒŸØ‚µ‚Ä‚¢‚È‚¢
--> ‚¿‚á‚ñ‚ÆŒŸØ‚µ‚Ü‚µ‚å‚¤B
+ -> ‚¿‚á‚ñ‚ÆŒŸØ‚µ‚Ü‚µ‚å‚¤B
 
