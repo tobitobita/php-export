@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>dsk</groupId>
 	<artifactId>php-export-core</artifactId>
@@ -9,7 +8,7 @@
 		<dependency>
 			<groupId>dsk</groupId>
 			<artifactId>dsk-common</artifactId>
-			<version>1</version>
+			<version>[2,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
@@ -28,14 +27,36 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>javafx</artifactId>
+			<version>2.0</version>
+			<!-- TODO -->
+			<systemPath>/Library/Java/JavaVirtualMachines/jdk1.7.0_07.jdk/Contents/Home/jre/lib/jfxrt.jar</systemPath>
+			<scope>system</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.change_vision.astah</groupId>
+			<artifactId>astah-api</artifactId>
+			<version>6.6.3</version>
+			<scope>system</scope>
+			<systemPath>${astahPath}/astah-api.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.change_vision.astah</groupId>
+			<artifactId>astah-api</artifactId>
+			<version>6.6.3</version>
+			<scope>system</scope>
+			<systemPath>${astahPath}/astah-pro.jar</systemPath>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 					<encoding>utf-8</encoding>
 				</configuration>
 			</plugin>
