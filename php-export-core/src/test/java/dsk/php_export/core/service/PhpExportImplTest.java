@@ -37,6 +37,7 @@ import com.change_vision.jude.api.inf.project.ProjectAccessor;
 import com.change_vision.jude.api.inf.project.ProjectAccessorFactory;
 
 import dsk.php_export.core.ExportPath;
+import dsk.php_export.core.ExportPath.ChooseState;
 import dsk.php_export.core.PhpExport;
 import dsk.php_export.core.PhpExport.ExportState;
 import dsk.php_export.core.delegate.DataSelect;
@@ -84,7 +85,8 @@ public class PhpExportImplTest {
             }
 
             @Override
-            public void select() {
+            public ChooseState select() {
+                return ChooseState.OK;
             }
 
             @Override
@@ -119,7 +121,8 @@ public class PhpExportImplTest {
             }
 
             @Override
-            public void select() {
+            public ChooseState select() {
+                return ChooseState.OK;
             }
 
             @Override

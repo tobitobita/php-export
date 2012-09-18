@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import dsk.php_export.core.ExportPath.ChooseState;
 import dsk.php_export.core.delegate.DataSelect;
 import dsk.php_export.core.desktop.javafx.controller.SelectPackagesController;
 
@@ -33,8 +34,9 @@ public class SelectPackagesApplication extends Application implements DataSelect
     }
 
     @Override
-    public void select() {
+    public ChooseState select() {
         this.stage.show();
+        return ChooseState.OK;
     }
 
     @Override

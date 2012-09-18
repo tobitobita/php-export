@@ -25,23 +25,30 @@ import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.change_vision.jude.api.inf.model.IClass;
 
+import dsk.php_export.core.ExportPath.ChooseState;
 import dsk.php_export.core.delegate.DataBind;
 import dsk.php_export.core.delegate.DataSelect;
 import dsk.php_export.core.utils.SkeletonCodeTools;
 
 public class SelectPackagesDialog extends JDialog implements DataBind<List<IClass>>,
         DataSelect<List<IClass>> {
-    private static final long serialVersionUID = 1L;
+    private static final Logger LOG = LoggerFactory.getLogger(SelectPackagesDialog.class);
+    private static final long serialVersionUID = -8542261936219304033L;
 
-    private JList<JCheckBox> list;
+    private JList<ModelCheckBox<IClass>> list;
+
+    private ChooseState chooseState = ChooseState.CANCEL;
 
     /**
      * Create the dialog.
      */
     public SelectPackagesDialog() {
+        LOG.trace("SelectPackagesDialog");
         this.initialize();
     }
 
@@ -71,10 +78,11 @@ public class SelectPackagesDialog extends JDialog implements DataBind<List<IClas
                     repaint();
                 }
             });
-            list.setCellRenderer(new ListCellRenderer<JCheckBox>() {
+            list.setCellRenderer(new ListCellRenderer<ModelCheckBox<IClass>>() {
                 @Override
-                public Component getListCellRendererComponent(JList<? extends JCheckBox> list,
-                        JCheckBox value, int index, boolean isSelected, boolean cellHasFocus) {
+                public Component getListCellRendererComponent(
+                        JList<? extends ModelCheckBox<IClass>> list, ModelCheckBox<IClass> value,
+                        int index, boolean isSelected, boolean cellHasFocus) {
                     if (isSelected) {
                         value.setForeground(WHITE);
                         value.setBackground(BLUE);
@@ -99,15 +107,8 @@ public class SelectPackagesDialog extends JDialog implements DataBind<List<IClas
 
                     @Override
                     public void actionPerformed(ActionEvent event) {
-                        ListModel<JCheckBox> model = list.getModel();
-                        int size = model.getSize();
-                        System.out.println();
-                        for (int i = 0; i < size; ++i) {
-                            JCheckBox checkBox = model.getElementAt(i);
-                            if (checkBox.isSelected()) {
-                                System.out.println(checkBox.getText());
-                            }
-                        }
+                        chooseState = ChooseState.OK;
+                        close();
                     }
                 });
                 buttonPane.add(okButton);
@@ -119,14 +120,17 @@ public class SelectPackagesDialog extends JDialog implements DataBind<List<IClas
 
                     @Override
                     public void actionPerformed(ActionEvent event) {
-                        setVisible(false);
-                        dispose();
+                        close();
                     }
                 });
                 getRootPane().setDefaultButton(cancelButton);
                 buttonPane.add(cancelButton);
             }
         }
+    }
+
+    private void close() {
+        setVisible(false);
     }
 
     /* Data binging */
@@ -142,15 +146,16 @@ public class SelectPackagesDialog extends JDialog implements DataBind<List<IClas
 
     @Override
     public void bind() {
-        DefaultListModel<JCheckBox> listModel = new DefaultListModel<>();
+        DefaultListModel<ModelCheckBox<IClass>> listModel = new DefaultListModel<>();
         for (IClass clazz : dataBindObject) {
-            JCheckBox checkBox = new JCheckBox();
+            ModelCheckBox<IClass> checkBox = new ModelCheckBox<IClass>();
             String namespace = tools.getNamespace(clazz).replace("\\", ".");
             StringBuilder sb = new StringBuilder(clazz.getName());
             if (!StringUtils.isEmpty(namespace)) {
                 sb.insert(0, ".");
                 sb.insert(0, namespace);
             }
+            checkBox.setObject(clazz);
             checkBox.setText(sb.toString());
             checkBox.setOpaque(true);
             listModel.addElement(checkBox);
@@ -166,13 +171,23 @@ public class SelectPackagesDialog extends JDialog implements DataBind<List<IClas
     }
 
     @Override
-    public void select() {
+    public ChooseState select() {
+        chooseState = ChooseState.CANCEL;
         this.setVisible(true);
+        return this.chooseState;
     }
 
     @Override
     public List<IClass> getSelectedData() {
-        // TODO Auto-generated method stub
-        return null;
+        List<IClass> selectedClasses = new ArrayList<>();
+        ListModel<ModelCheckBox<IClass>> model = list.getModel();
+        int size = model.getSize();
+        for (int i = 0; i < size; ++i) {
+            ModelCheckBox<IClass> checkBox = model.getElementAt(i);
+            if (checkBox.isSelected()) {
+                selectedClasses.add(checkBox.getObject());
+            }
+        }
+        return selectedClasses;
     }
 }

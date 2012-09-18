@@ -16,9 +16,19 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import dsk.php_export.core.delegate.DataBind;
 
+/**
+ * TODO JavaFX
+ * 
+ */
 public class SelectPackagesController implements Initializable, DataBind<List<String>> {
+    private static final Logger LOG = LoggerFactory.getLogger(SelectPackagesController.class);
+
     @FXML
     private ListView<CheckBox> classListView;
 
@@ -45,11 +55,11 @@ public class SelectPackagesController implements Initializable, DataBind<List<St
 
     @FXML
     private void handleButtonAction(ActionEvent e) {
-        System.out.println("ButtonAction");
+        LOG.trace("ButtonAction");
         ObservableList<CheckBox> items = this.classListView.getItems();
         for (CheckBox checkBox : items) {
             if (checkBox.isSelected()) {
-                System.out.println(checkBox.getText());
+                LOG.debug(checkBox.getText());
             }
         }
     }

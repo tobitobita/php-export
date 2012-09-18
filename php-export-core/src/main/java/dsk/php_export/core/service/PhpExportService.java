@@ -1,10 +1,8 @@
 package dsk.php_export.core.service;
 
-import java.awt.HeadlessException;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -16,12 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import javax.inject.Inject;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.exception.MethodInvocationException;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.change_vision.jude.api.inf.exception.ProjectNotFoundException;
 import com.change_vision.jude.api.inf.model.IAssociationClass;
@@ -43,10 +42,13 @@ import dsk.php_export.core.exception.ExportException;
 import dsk.php_export.core.utils.SkeletonCodeTools;
 
 public class PhpExportService implements PhpExport {
+    private static final Logger LOG = LoggerFactory.getLogger(PhpExportService.class);
+
     private ExportPath exportPath;
 
     private DataSelect<List<IClass>> dataSelect;
 
+    @Inject
     public PhpExportService(ExportPath exportPath, DataSelect<List<IClass>> dataSelect) {
         super();
         this.exportPath = exportPath;
@@ -56,16 +58,18 @@ public class PhpExportService implements PhpExport {
     public ExportState export(ProjectAccessor projectAccessor) throws ProjectNotFoundException,
             IOException, ExportException {
         IModel model = projectAccessor.getProject();
-        System.out.println("get package.");
+        LOG.trace("get package.");
         List<IPackage> packageList = getPackageList(model, new ArrayList<IPackage>());
         for (IPackage p : packageList) {
-            System.out.println(p.getName());
+            LOG.trace(p.getName());
         }
-        System.out.println("get class.");
+        LOG.trace("get class.");
         List<IClass> classes = getClassList(model, new ArrayList<IClass>());
         // ファイル選択
         this.dataSelect.setData(classes);
-        this.dataSelect.select();
+        if (ChooseState.CANCEL == this.dataSelect.select()) {
+            return ExportState.ES_FAILD;
+        }
         List<IClass> selectedClasses = this.dataSelect.getSelectedData();
         if (null == selectedClasses) {
             throw new ExportException("null object.");
@@ -74,12 +78,13 @@ public class PhpExportService implements PhpExport {
             return ExportState.ES_FAILD;
         }
         // 保存する場所を選択
-        if (ChooseState.OK == this.exportPath.choose()) {
-            for (IClass clazz : selectedClasses) {
-                System.out.println(clazz.getName());
-                if (!"".equals(clazz.getName())) {
-                    printSkeletonCode(this.exportPath.getChoosePath(), clazz);
-                }
+        if (ChooseState.CANCEL == this.exportPath.choose()) {
+            return ExportState.ES_FAILD;
+        }
+        for (IClass clazz : selectedClasses) {
+            LOG.trace(clazz.getName());
+            if (!"".equals(clazz.getName())) {
+                printSkeletonCode(this.exportPath.getChoosePath(), clazz);
             }
         }
         return ExportState.ES_SUCCESS;
@@ -87,32 +92,22 @@ public class PhpExportService implements PhpExport {
 
     private SkeletonCodeTools tools = new SkeletonCodeTools();
 
-    private void printSkeletonCode(String exportDirPath, IClass clazz) {
-        try {
-            VelocityContext context = new VelocityContext();
-            context.put("tools", tools);
-            context.put("clazz", clazz);
+    private void printSkeletonCode(String exportDirPath, IClass clazz) throws IOException {
+        VelocityContext context = new VelocityContext();
+        context.put("tools", tools);
+        context.put("clazz", clazz);
 
-            StringWriter sw = new StringWriter();
-            Template template = this.getTemplate(tools.getClassTypeString(clazz));
-            template.merge(context, sw);
-            // System.out.println(sw.toString());
-            this.write(exportDirPath, tools.getNamespace(clazz).replace("\\", "/"),
-                    clazz.getName(), sw.toString());
-            sw.flush();
-        } catch (ResourceNotFoundException e) {
-            e.printStackTrace();
-        } catch (ParseErrorException e) {
-            e.printStackTrace();
-        } catch (MethodInvocationException e) {
-            e.printStackTrace();
-        } catch (HeadlessException e) {
-            e.printStackTrace();
-        }
+        StringWriter sw = new StringWriter();
+        Template template = this.getTemplate(tools.getClassTypeString(clazz));
+        template.merge(context, sw);
+        this.write(exportDirPath, tools.getNamespace(clazz).replace("\\", "/"), clazz.getName(),
+                sw.toString());
+        sw.flush();
     }
 
-    private void write(String outputDirPath, String thePackagePath, String className, String text) {
-        String fullDirPath = String.format("%s/%s", outputDirPath, thePackagePath);
+    private void write(String outputDirPath, String thePackagePath, String className, String text)
+            throws IOException {
+        String fullDirPath = String.format("%s/%s/", outputDirPath, thePackagePath);
         File dir = new File(fullDirPath);
         if (!dir.exists()) {
             dir.mkdirs();
@@ -122,41 +117,28 @@ public class PhpExportService implements PhpExport {
                 Writer writer = new BufferedWriter(new OutputStreamWriter(os,
                         Charset.forName("UTF-8")))) {
             writer.write(text);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
     private Template interfaceTemplate;
     private Template classTemplate;
 
-    private Template getTemplate(String type) {
-        try {
-            Properties p = new Properties();
-            p.load(getClass().getClassLoader().getResourceAsStream("velocity.properties"));
-            VelocityEngine velocity = new VelocityEngine();
-            velocity.init(p);
-            if ("interface".equals(type)) {
-                if (null == this.interfaceTemplate) {
-                    this.interfaceTemplate = velocity.getTemplate("php_interface_template.vm");
-                }
-                return this.interfaceTemplate;
-            } else {
-                if (null == this.classTemplate) {
-                    this.classTemplate = velocity.getTemplate("php_class_template.vm");
-                }
-                return this.classTemplate;
+    private Template getTemplate(String type) throws IOException {
+        Properties p = new Properties();
+        p.load(getClass().getClassLoader().getResourceAsStream("velocity.properties"));
+        VelocityEngine velocity = new VelocityEngine();
+        velocity.init(p);
+        if ("interface".equals(type)) {
+            if (null == this.interfaceTemplate) {
+                this.interfaceTemplate = velocity.getTemplate("php_interface_template.vm");
             }
-        } catch (ResourceNotFoundException e) {
-            e.printStackTrace();
-        } catch (ParseErrorException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            return this.interfaceTemplate;
+        } else {
+            if (null == this.classTemplate) {
+                this.classTemplate = velocity.getTemplate("php_class_template.vm");
+            }
+            return this.classTemplate;
         }
-        return null;
     }
 
     /**
@@ -190,6 +172,9 @@ public class PhpExportService implements PhpExport {
      * @return パッケージ一覧を格納したリスト
      */
     private List<IClass> getClassList(IPackage model, List<IClass> classList) {
+        if (null == model) {
+            return classList;
+        }
         INamedElement[] namedElements = model.getOwnedElements();
         for (INamedElement namedElement : namedElements) {
             if (namedElement instanceof IClass
