@@ -34,6 +34,7 @@ import com.change_vision.jude.api.inf.model.ITestCase;
 import com.change_vision.jude.api.inf.model.IUseCase;
 import com.change_vision.jude.api.inf.project.ProjectAccessor;
 
+import dsk.common.util.IoTools;
 import dsk.php_export.core.ExportPath;
 import dsk.php_export.core.ExportPath.ChooseState;
 import dsk.php_export.core.PhpExport;
@@ -47,6 +48,12 @@ public class PhpExportService implements PhpExport {
     private ExportPath exportPath;
 
     private DataSelect<List<IClass>> dataSelect;
+
+    private SkeletonCodeTools tools = new SkeletonCodeTools();
+
+    public PhpExportService() {
+        super();
+    }
 
     @Inject
     public PhpExportService(ExportPath exportPath, DataSelect<List<IClass>> dataSelect) {
@@ -90,19 +97,28 @@ public class PhpExportService implements PhpExport {
         return ExportState.ES_SUCCESS;
     }
 
-    private SkeletonCodeTools tools = new SkeletonCodeTools();
-
     private void printSkeletonCode(String exportDirPath, IClass clazz) throws IOException {
+        this.write(exportDirPath, tools.getNamespace(clazz).replace("\\", "/"), clazz.getName(),
+                this.createSkeletonCode(clazz));
+    }
+
+    public String createSkeletonCode(IClass clazz) throws IOException {
         VelocityContext context = new VelocityContext();
         context.put("tools", tools);
         context.put("clazz", clazz);
 
-        StringWriter sw = new StringWriter();
-        Template template = this.getTemplate(tools.getClassTypeString(clazz));
-        template.merge(context, sw);
-        this.write(exportDirPath, tools.getNamespace(clazz).replace("\\", "/"), clazz.getName(),
-                sw.toString());
-        sw.flush();
+        String sourceStr = null;
+        StringWriter sw = null;
+        try {
+            sw = new StringWriter();
+            Template template = this.getTemplate(tools.getClassTypeString(clazz));
+            template.merge(context, sw);
+            sourceStr = sw.toString();
+            sw.flush();
+        } finally {
+            IoTools.close(sw);
+        }
+        return sourceStr;
     }
 
     private void write(String outputDirPath, String thePackagePath, String className, String text)
@@ -113,10 +129,15 @@ public class PhpExportService implements PhpExport {
             dir.mkdirs();
         }
         String filepath = String.format("%s%s.php", fullDirPath, className);
-        try (OutputStream os = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
-                Writer writer = new BufferedWriter(new OutputStreamWriter(os,
-                        Charset.forName("UTF-8")))) {
+        OutputStream os = null;
+        Writer writer = null;
+        try {
+            os = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+            writer = new BufferedWriter(new OutputStreamWriter(os, Charset.forName("UTF-8")));
             writer.write(text);
+        } finally {
+            IoTools.close(writer);
+            IoTools.close(os);
         }
     }
 

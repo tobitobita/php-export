@@ -2,13 +2,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>dsk</groupId>
 	<artifactId>php-export-core</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>dsk</groupId>
 			<artifactId>dsk-common</artifactId>
-			<version>[2,)</version>
+			<version>[7,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
@@ -28,24 +28,16 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>javafx</artifactId>
-			<version>2.0</version>
-			<!-- TODO -->
-			<systemPath>/Library/Java/JavaVirtualMachines/jdk1.7.0_07.jdk/Contents/Home/jre/lib/jfxrt.jar</systemPath>
-			<scope>system</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.change_vision.astah</groupId>
 			<artifactId>astah-api</artifactId>
-			<version>6.6.3</version>
+			<version>6.6.4</version>
 			<scope>system</scope>
 			<systemPath>${astahPath}/astah-api.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.change_vision.astah</groupId>
 			<artifactId>astah-api</artifactId>
-			<version>6.6.3</version>
+			<version>6.6.4</version>
 			<scope>system</scope>
 			<systemPath>${astahPath}/astah-pro.jar</systemPath>
 		</dependency>
@@ -53,10 +45,18 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.4.2</version>
+				<configuration>
+					<argLine>-Dfile.encoding=UTF-8 -Xmx1024m -Xms128m</argLine>
+				</configuration>
+			</plugin>
+			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.6</source>
+					<target>1.6</target>
 					<encoding>utf-8</encoding>
 				</configuration>
 			</plugin>

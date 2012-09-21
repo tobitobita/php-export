@@ -49,11 +49,27 @@ public class PhpExportImplTest {
     @Before
     public void before() {
         System.out.println("PhpExportImplTest.before()");
-        try (InputStream is = getClass().getClassLoader().getResourceAsStream("php_test.asta")) {
+        InputStream is = null;
+        try {
+            is = getClass().getClassLoader().getResourceAsStream("php_test.asta");
             pa = ProjectAccessorFactory.getProjectAccessor();
             pa.open(is);
-        } catch (LicenseNotFoundException | ProjectNotFoundException | NonCompatibleException
-                | IOException | ProjectLockedException | ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        } catch (LicenseNotFoundException e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        } catch (ProjectNotFoundException e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        } catch (NonCompatibleException e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        } catch (ProjectLockedException e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -91,13 +107,19 @@ public class PhpExportImplTest {
 
             @Override
             public List<IClass> getSelectedData() {
-                List<IClass> classes = new ArrayList<>();
+                List<IClass> classes = new ArrayList<IClass>();
                 return classes;
             }
         });
         try {
             Assert.assertEquals(ExportState.ES_FAILD, export.export(pa));
-        } catch (ProjectNotFoundException | IOException | ExportException e) {
+        } catch (ProjectNotFoundException e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        } catch (ExportException e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }
@@ -127,11 +149,16 @@ public class PhpExportImplTest {
 
             @Override
             public List<IClass> getSelectedData() {
-                List<IClass> classes = new ArrayList<>();
+                List<IClass> classes = new ArrayList<IClass>();
                 classes.add(new IClass() {
                     @Override
                     public IHyperlink[] getHyperlinks() {
                         return null;
+                    }
+
+                    @Override
+                    public boolean hasStereotype(String arg0) {
+                        return false;
                     }
 
                     @Override
@@ -410,7 +437,13 @@ public class PhpExportImplTest {
         });
         try {
             Assert.assertEquals(ExportState.ES_SUCCESS, export.export(pa));
-        } catch (ProjectNotFoundException | IOException | ExportException e) {
+        } catch (ProjectNotFoundException e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        } catch (ExportException e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
         }

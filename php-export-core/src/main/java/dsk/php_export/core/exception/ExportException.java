@@ -7,11 +7,6 @@ public class ExportException extends Exception {
         super();
     }
 
-    public ExportException(String message, Throwable cause, boolean enableSuppression,
-            boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
-
     public ExportException(String message, Throwable cause) {
         super(message, cause);
     }

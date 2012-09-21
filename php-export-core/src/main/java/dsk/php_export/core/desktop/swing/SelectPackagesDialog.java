@@ -40,7 +40,7 @@ public class SelectPackagesDialog extends JDialog implements DataBind<List<IClas
     private static final Logger LOG = LoggerFactory.getLogger(SelectPackagesDialog.class);
     private static final long serialVersionUID = -8542261936219304033L;
 
-    private JList<ModelCheckBox<IClass>> list;
+    private JList list;
 
     private ChooseState chooseState = ChooseState.CANCEL;
 
@@ -64,13 +64,12 @@ public class SelectPackagesDialog extends JDialog implements DataBind<List<IClas
         {
             JScrollPane scrollPane = new JScrollPane();
             getContentPane().add(scrollPane, BorderLayout.CENTER);
-            list = new JList<>();
+            list = new JList();
             list.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseReleased(MouseEvent event) {
                     super.mouseReleased(event);
-                    @SuppressWarnings("unchecked")
-                    JList<JCheckBox> theList = (JList<JCheckBox>) event.getSource();
+                    JList theList = (JList) event.getSource();
                     JCheckBox theCheckBox = (JCheckBox) theList.getSelectedValue();
                     if (null != theCheckBox) {
                         theCheckBox.setSelected(!theCheckBox.isSelected());
@@ -78,19 +77,19 @@ public class SelectPackagesDialog extends JDialog implements DataBind<List<IClas
                     repaint();
                 }
             });
-            list.setCellRenderer(new ListCellRenderer<ModelCheckBox<IClass>>() {
+            list.setCellRenderer(new ListCellRenderer() {
                 @Override
-                public Component getListCellRendererComponent(
-                        JList<? extends ModelCheckBox<IClass>> list, ModelCheckBox<IClass> value,
-                        int index, boolean isSelected, boolean cellHasFocus) {
+                public Component getListCellRendererComponent(JList list, Object value, int index,
+                        boolean isSelected, boolean cellHasFocus) {
+                    JCheckBox checkbox = (JCheckBox) value;
                     if (isSelected) {
-                        value.setForeground(WHITE);
-                        value.setBackground(BLUE);
+                        checkbox.setForeground(WHITE);
+                        checkbox.setBackground(BLUE);
                     } else {
-                        value.setForeground(BLACK);
-                        value.setBackground(WHITE);
+                        checkbox.setForeground(BLACK);
+                        checkbox.setBackground(WHITE);
                     }
-                    return value;
+                    return checkbox;
                 }
 
             });
@@ -146,7 +145,7 @@ public class SelectPackagesDialog extends JDialog implements DataBind<List<IClas
 
     @Override
     public void bind() {
-        DefaultListModel<ModelCheckBox<IClass>> listModel = new DefaultListModel<>();
+        DefaultListModel listModel = new DefaultListModel();
         for (IClass clazz : dataBindObject) {
             ModelCheckBox<IClass> checkBox = new ModelCheckBox<IClass>();
             String namespace = tools.getNamespace(clazz).replace("\\", ".");
@@ -179,11 +178,12 @@ public class SelectPackagesDialog extends JDialog implements DataBind<List<IClas
 
     @Override
     public List<IClass> getSelectedData() {
-        List<IClass> selectedClasses = new ArrayList<>();
-        ListModel<ModelCheckBox<IClass>> model = list.getModel();
+        List<IClass> selectedClasses = new ArrayList<IClass>();
+        ListModel model = list.getModel();
         int size = model.getSize();
         for (int i = 0; i < size; ++i) {
-            ModelCheckBox<IClass> checkBox = model.getElementAt(i);
+            @SuppressWarnings("unchecked")
+            ModelCheckBox<IClass> checkBox = (ModelCheckBox<IClass>) model.getElementAt(i);
             if (checkBox.isSelected()) {
                 selectedClasses.add(checkBox.getObject());
             }
