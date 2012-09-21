@@ -5,7 +5,7 @@
 		<bundle.symbolicName>dsk.php-export-plugin</bundle.symbolicName>
 		<bundle.namespace>dsk.php_export.plugin</bundle.namespace>
 		<plugin.install>true</plugin.install>
-		<astah.version>6.6.3</astah.version>
+		<astah.version>6.6.4</astah.version>
 		<astah.edition>all</astah.edition>
 	</properties>
 	<modelVersion>4.0.0</modelVersion>
