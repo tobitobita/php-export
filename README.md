@@ -1,6 +1,6 @@
 php-export
 ==========
-ƒNƒ‰ƒX}‚ğ‚à‚Æ‚ÉPHP‚ÌƒXƒPƒ‹ƒgƒ“ƒR[ƒh‚ğo—Í‚µ‚Ü‚·B
+ƒNƒ‰ƒX‚ğ‚à‚Æ‚ÉPHP‚ÌƒXƒPƒ‹ƒgƒ“ƒR[ƒh‚ğo—Í‚µ‚Ü‚·B
 
 ƒCƒ“ƒXƒg[ƒ‹
 ==========
@@ -8,10 +8,6 @@ Downloads‚æ‚èphp-export-plugin-x.x.x.jar‚ğƒ_ƒEƒ“ƒ[ƒh‚µApluginsƒtƒHƒ‹ƒ_‚ÉƒRƒs
 
 TODO
 ==========
-–â“š–³—p‚Å‚·‚×‚Ä‚ÌƒNƒ‰ƒX‚ğo—Í‚·‚é
-
--> ‘I‘ğ‚³‚ê‚½ƒNƒ‰ƒX‚Ì‚İo—Í‚µ‚½‚¢B
-
 eƒNƒ‰ƒX‚ğŒ©‚Ä‚¢‚È‚¢
 
 -> extends‚âimplements‚ğo—Í‚·‚é‚æ‚¤‚É‚µ‚Ü‚·B
