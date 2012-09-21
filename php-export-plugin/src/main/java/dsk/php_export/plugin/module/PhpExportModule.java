@@ -1,6 +1,10 @@
 package dsk.php_export.plugin.module;
 
+import java.util.List;
+
+import com.change_vision.jude.api.inf.model.IClass;
 import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
 import com.google.inject.matcher.Matchers;
 
 import dsk.common.interceptor.LogInterceptor;
@@ -16,8 +20,8 @@ public class PhpExportModule extends AbstractModule {
     protected void configure() {
         this.bind(PhpExport.class).to(PhpExportService.class);
         this.bind(ExportPath.class).to(ExportPathDialog.class);
-        // TODO うまくいかない
-        this.bind(DataSelect.class).toInstance(new SelectPackagesDialog());
+        this.bind(new TypeLiteral<DataSelect<List<IClass>>>() {
+        }).toInstance(new SelectPackagesDialog());
 
         this.bindInterceptor(Matchers.any(), Matchers.any(), new LogInterceptor());
     }
