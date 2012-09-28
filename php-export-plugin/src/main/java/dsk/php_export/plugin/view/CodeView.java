@@ -5,21 +5,16 @@ import static dsk.php_export.plugin.Const.NAME;
 import java.awt.Component;
 import java.io.IOException;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
 import org.apache.commons.lang3.StringUtils;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.change_vision.jude.api.inf.exception.InvalidUsingException;
-import com.change_vision.jude.api.inf.model.IAssociationClass;
 import com.change_vision.jude.api.inf.model.IClass;
 import com.change_vision.jude.api.inf.model.IElement;
-import com.change_vision.jude.api.inf.model.IRequirement;
-import com.change_vision.jude.api.inf.model.ISubsystem;
-import com.change_vision.jude.api.inf.model.ITestCase;
-import com.change_vision.jude.api.inf.model.IUseCase;
 import com.change_vision.jude.api.inf.presentation.IPresentation;
 import com.change_vision.jude.api.inf.project.ProjectAccessor;
 import com.change_vision.jude.api.inf.project.ProjectAccessorFactory;
@@ -35,33 +30,40 @@ import com.google.inject.Injector;
 import com.google.inject.Stage;
 
 import dsk.common.util.R;
-import dsk.php_export.core.PhpExport;
+import dsk.export.tools.SkeletonCodeTools;
+import dsk.php_export.core.ClassExport;
 import dsk.php_export.plugin.module.CodeViewModule;
 
 public class CodeView implements IPluginExtraTabView, ProjectEventListener,
         IEntitySelectionListener {
     private static final Logger LOG = LoggerFactory.getLogger(CodeView.class);
 
-    private JTextArea viewSource = new JTextArea();
+    private RSyntaxTextArea viewSource = new RSyntaxTextArea();
 
-    private PhpExport export;
+    private ClassExport export;
+    private SkeletonCodeTools codeTools;
+    private IDiagramViewManager diagramViewManager;
 
     public CodeView() {
         LOG.debug("CodeView.CodeView()");
         try {
             ProjectAccessor projectAccessor = ProjectAccessorFactory.getProjectAccessor();
-            IDiagramViewManager diagramViewManager = projectAccessor.getViewManager()
-                    .getDiagramViewManager();
-            diagramViewManager.addEntitySelectionListener(this);
+            this.diagramViewManager = projectAccessor.getViewManager().getDiagramViewManager();
         } catch (ClassNotFoundException e) {
             LOG.error(e.getMessage(), e);
         } catch (InvalidUsingException e) {
             LOG.error(e.getMessage(), e);
         }
+        this.diagramViewManager.addEntitySelectionListener(this);
+
         this.viewSource.setEditable(false);
+        this.viewSource.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PHP);
+        this.viewSource.setCodeFoldingEnabled(true);
+        this.viewSource.setAntiAliasingEnabled(true);
 
         Injector injector = Guice.createInjector(Stage.PRODUCTION, new CodeViewModule());
-        this.export = injector.getInstance(PhpExport.class);
+        this.export = injector.getInstance(ClassExport.class);
+        this.codeTools = injector.getInstance(SkeletonCodeTools.class);
     }
 
     /* IEntitySelectionListener */
@@ -69,23 +71,25 @@ public class CodeView implements IPluginExtraTabView, ProjectEventListener,
     @Override
     public void entitySelectionChanged(IEntitySelectionEvent event) {
         LOG.debug("entitySelectionChanged");
-        IPresentation[] presentations = this.getSelectingPresentation();
-        String name = null;
-        // Class以外を除外
-        if (0 < presentations.length) {
-            IElement model = presentations[0].getModel();
-            if (model instanceof IClass
-                    && !(model instanceof IUseCase || model instanceof ITestCase
-                            || model instanceof ISubsystem || model instanceof IRequirement || model instanceof IAssociationClass)) {
-                name = ((IClass) model).getName();
-            }
-            if (!StringUtils.isEmpty(name)) {
-                try {
-                    this.viewSource.setText(this.export.createSkeletonCode((IClass) model));
-                } catch (IOException e) {
-                    LOG.error(e.getMessage(), e);
-                }
-            }
+        IPresentation[] presentations = this.diagramViewManager.getSelectedPresentations();
+        if (0 >= presentations.length) {
+            return;
+        }
+        IElement model = presentations[0].getModel();
+        if (!this.codeTools.isClass(model)) {
+            return;
+        }
+        IClass clazz = (IClass) model;
+        if (StringUtils.isEmpty(clazz.getName())) {
+            return;
+        }
+
+        try {
+            String str = this.export.createSkeletonCode(clazz);
+            this.viewSource.setText(str.replace("\t", "  "));
+            this.viewSource.setCaretPosition(0);
+        } catch (IOException e) {
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -125,7 +129,9 @@ public class CodeView implements IPluginExtraTabView, ProjectEventListener,
 
     @Override
     public Component getComponent() {
-        return new JScrollPane(this.viewSource);
+        RTextScrollPane sp = new RTextScrollPane(this.viewSource);
+        sp.setFoldIndicatorEnabled(true);
+        return sp;
     }
 
     @Override
@@ -136,17 +142,5 @@ public class CodeView implements IPluginExtraTabView, ProjectEventListener,
     @Override
     public String getTitle() {
         return R.m(NAME, "Code　View");
-    }
-
-    private IPresentation[] getSelectingPresentation() {
-        IPresentation[] presentations = new IPresentation[0];
-        try {
-            ProjectAccessor projectAccessor = ProjectAccessorFactory.getProjectAccessor();
-            presentations = projectAccessor.getViewManager().getDiagramViewManager()
-                    .getSelectedPresentations();
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-        }
-        return presentations;
     }
 }

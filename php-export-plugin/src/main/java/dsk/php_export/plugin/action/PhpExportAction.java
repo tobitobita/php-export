@@ -15,8 +15,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
 
-import dsk.php_export.core.PhpExport;
-import dsk.php_export.core.PhpExport.ExportState;
+import dsk.php_export.core.ClassExport;
+import dsk.php_export.core.ClassExport.ExportState;
 import dsk.php_export.core.exception.ExportException;
 import dsk.php_export.plugin.module.PhpExportModule;
 
@@ -26,7 +26,7 @@ public class PhpExportAction implements IPluginActionDelegate {
     public Object run(IWindow window) throws UnExpectedException {
         try {
             Injector injector = Guice.createInjector(Stage.PRODUCTION, new PhpExportModule());
-            PhpExport export = injector.getInstance(PhpExport.class);
+            ClassExport export = injector.getInstance(ClassExport.class);
             if (ExportState.ES_SUCCESS == export
                     .export(ProjectAccessorFactory.getProjectAccessor())) {
                 JOptionPane.showMessageDialog(window.getParent(), "出力しました", "",

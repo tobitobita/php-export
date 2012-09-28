@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<properties>
 		<bundle.symbolicName>dsk.php-export-plugin</bundle.symbolicName>
 		<bundle.namespace>dsk.php_export.plugin</bundle.namespace>
@@ -195,15 +194,13 @@
 						</goals>
 					</execution>
 				</executions>
-				<!-- | the following instructions build a simple set of public/private 
-					classes into an OSGi bundle -->
+				<!-- | the following instructions build a simple set of public/private classes into an OSGi bundle -->
 				<configuration>
 					<instructions>
 						<unpackBundle>true</unpackBundle>
 						<Bundle-SymbolicName>${bundle.symbolicName}; singleton:=true</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						<!-- | assume public classes are in the top package, and private classes 
-							are under ".internal" -->
+						<!-- | assume public classes are in the top package, and private classes are under ".internal" -->
 						<Export-Package>!${bundle.namespace}.internal.*,${bundle.namespace}.*;version="${project.version}"</Export-Package>
 						<Private-Package>${bundle.namespace}.internal.*</Private-Package>
 						<Bundle-Activator>${bundle.namespace}.Activator</Bundle-Activator>
@@ -285,6 +282,12 @@
 		</dependency>
 		<dependency>
 			<groupId>dsk</groupId>
+			<artifactId>astah-export</artifactId>
+			<version>[0.0,)</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>dsk</groupId>
 			<artifactId>php-export-core</artifactId>
 			<version>[0.0,)</version>
 			<scope>compile</scope>
@@ -332,6 +335,11 @@
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity</artifactId>
 			<version>1.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fifesoft</groupId>
+			<artifactId>rsyntaxtextarea</artifactId>
+			<version>[2.0,)</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.inject</groupId>
