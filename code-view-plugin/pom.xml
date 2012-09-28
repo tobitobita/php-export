@@ -9,8 +9,8 @@
 	</properties>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>dsk</groupId>
-	<artifactId>code-view</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<artifactId>code-view-plugin</artifactId>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 	<name>%bundle.name</name>
 	<description>%bundle.description</description>

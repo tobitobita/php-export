@@ -2,8 +2,15 @@ package dsk.codeview.plugin.view;
 
 import static dsk.codeview.plugin.Const.NAME;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
 
 import org.apache.commons.lang3.StringUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -42,7 +49,7 @@ public class CodeView implements IPluginExtraTabView, IEntitySelectionListener {
     private IDiagramViewManager diagramViewManager;
 
     public CodeView() {
-        LOG.trace("CodeView.CodeView()");
+        LOG.trace("CodeView create.");
         // インスタンス設定
         try {
             ProjectAccessor projectAccessor = ProjectAccessorFactory.getProjectAccessor();
@@ -68,7 +75,6 @@ public class CodeView implements IPluginExtraTabView, IEntitySelectionListener {
 
     @Override
     public void entitySelectionChanged(IEntitySelectionEvent event) {
-        LOG.debug("entitySelectionChanged");
         IPresentation[] presentations = this.diagramViewManager.getSelectedPresentations();
         if (0 >= presentations.length) {
             return;
@@ -107,9 +113,38 @@ public class CodeView implements IPluginExtraTabView, IEntitySelectionListener {
 
     @Override
     public Component getComponent() {
+        JPanel contentPane = new JPanel(new BorderLayout(0, 0));
+        // バー
+        JPanel barPane = new JPanel(new BorderLayout(0, 0));
+        contentPane.add(barPane, BorderLayout.NORTH);
+        JToolBar toolBar = new JToolBar();
+        barPane.add(toolBar, BorderLayout.EAST);
+        toolBar.setAlignmentY(Component.CENTER_ALIGNMENT);
+        toolBar.setFloatable(false);
+        JComboBox comboBox = new JComboBox(this.selectedKind());
+        comboBox.setEditable(false);
+        comboBox.setPrototypeDisplayValue("Javascript");
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO 出力選択変更
+                // JComboBox comboBox = (JComboBox) e.getSource();
+                // System.out.println(comboBox.getSelectedItem().toString());
+            }
+        });
+        toolBar.add(comboBox);
+        // 表示エリア
         RTextScrollPane sp = new RTextScrollPane(this.sourceView);
         sp.setFoldIndicatorEnabled(true);
-        return sp;
+        contentPane.add(sp);
+        return contentPane;
+    }
+
+    /**
+     * TODO 出力の種類
+     */
+    private String[] selectedKind() {
+        return new String[] { "PHP" };
     }
 
     @Override
