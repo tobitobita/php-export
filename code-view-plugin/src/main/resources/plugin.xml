@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<extension point="com.change_vision.astah.ui.view">
+		<view id="dsk.codeview.plugin.view.CodeView" type="extraTab" class="dsk.codeview.plugin.view.CodeView" />
+   </extension>
+</plugin>
