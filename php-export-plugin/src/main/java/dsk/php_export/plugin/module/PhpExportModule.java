@@ -8,11 +8,11 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.matcher.Matchers;
 
 import dsk.common.interceptor.LogInterceptor;
-import dsk.php_export.core.ExportPath;
-import dsk.php_export.core.ClassExport;
-import dsk.php_export.core.delegate.DataSelect;
-import dsk.php_export.core.desktop.swing.ExportPathDialog;
-import dsk.php_export.core.desktop.swing.SelectPackagesDialog;
+import dsk.export.ClassExport;
+import dsk.export.ExportPath;
+import dsk.export.delegate.DataSelect;
+import dsk.export.desktop.swing.ExportPathDialog;
+import dsk.export.desktop.swing.SelectPackagesDialog;
 import dsk.php_export.core.service.PhpExportService;
 
 public class PhpExportModule extends AbstractModule {

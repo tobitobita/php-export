@@ -30,8 +30,8 @@ import com.google.inject.Injector;
 import com.google.inject.Stage;
 
 import dsk.common.util.R;
+import dsk.export.ClassExport;
 import dsk.export.tools.SkeletonCodeTools;
-import dsk.php_export.core.ClassExport;
 import dsk.php_export.plugin.module.CodeViewModule;
 
 public class CodeView implements IPluginExtraTabView, ProjectEventListener,

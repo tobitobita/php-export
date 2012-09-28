@@ -15,9 +15,9 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
 
-import dsk.php_export.core.ClassExport;
-import dsk.php_export.core.ClassExport.ExportState;
-import dsk.php_export.core.exception.ExportException;
+import dsk.export.ClassExport;
+import dsk.export.ClassExport.ExportState;
+import dsk.export.exception.ExportException;
 import dsk.php_export.plugin.module.PhpExportModule;
 
 public class PhpExportAction implements IPluginActionDelegate {
