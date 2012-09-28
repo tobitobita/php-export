@@ -47,6 +47,14 @@ public class PhpExportAction implements IPluginActionDelegate {
             LOG.error(e.getMessage(), e);
             JOptionPane.showMessageDialog(window.getParent(), "失敗しました", "",
                     JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            throw new UnExpectedException();
+        } catch (NoSuchMethodError e) {
+            LOG.error(e.getMessage(), e);
+            JOptionPane.showMessageDialog(window.getParent(), "6.6.4以降で実行してください", "",
+                    JOptionPane.ERROR_MESSAGE);
+            throw new UnExpectedException();
         }
         return null;
     }
