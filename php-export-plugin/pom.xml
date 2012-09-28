@@ -10,7 +10,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>dsk</groupId>
 	<artifactId>php-export-plugin</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 	<name>%bundle.name</name>
 	<description>%bundle.description</description>
@@ -283,40 +283,40 @@
 		<dependency>
 			<groupId>dsk</groupId>
 			<artifactId>astah-export</artifactId>
-			<version>[0.0,)</version>
+			<version>[0.0.3,)</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>dsk</groupId>
 			<artifactId>php-export-core</artifactId>
-			<version>[0.0,)</version>
+			<version>[0.0.5,)</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>[1.6,)</version>
+			<version>[1.7.0,)</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>[1.0,)</version>
+			<version>[1.0.7,)</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
-			<version>[1.0,)</version>
+			<version>[1.0.7,)</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>[3,)</version>
+			<version>[3.1,)</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -329,7 +329,7 @@
 		<dependency>
 			<groupId>dsk</groupId>
 			<artifactId>dsk-common</artifactId>
-			<version>[2,)</version>
+			<version>[6,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
@@ -349,7 +349,7 @@
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
-			<version>3.2.1</version>
+			<version>[3.2.1,)</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>

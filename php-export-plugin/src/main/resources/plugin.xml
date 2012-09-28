@@ -8,7 +8,7 @@
          <menu
                id="php-export-plugin"
                label="%menu_group"
-               path="tool/php-export-plugin">
+               path="tool/c_plus">
          </menu>
          <action
 			   label="%menu_label"
