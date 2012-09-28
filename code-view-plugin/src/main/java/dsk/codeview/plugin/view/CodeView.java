@@ -18,8 +18,6 @@ import com.change_vision.jude.api.inf.model.IElement;
 import com.change_vision.jude.api.inf.presentation.IPresentation;
 import com.change_vision.jude.api.inf.project.ProjectAccessor;
 import com.change_vision.jude.api.inf.project.ProjectAccessorFactory;
-import com.change_vision.jude.api.inf.project.ProjectEvent;
-import com.change_vision.jude.api.inf.project.ProjectEventListener;
 import com.change_vision.jude.api.inf.ui.IPluginExtraTabView;
 import com.change_vision.jude.api.inf.ui.ISelectionListener;
 import com.change_vision.jude.api.inf.view.IDiagramViewManager;
@@ -34,18 +32,18 @@ import dsk.common.util.R;
 import dsk.export.ClassExport;
 import dsk.export.tools.SkeletonCodeTools;
 
-public class CodeView implements IPluginExtraTabView, ProjectEventListener,
-        IEntitySelectionListener {
+public class CodeView implements IPluginExtraTabView, IEntitySelectionListener {
     private static final Logger LOG = LoggerFactory.getLogger(CodeView.class);
 
-    private RSyntaxTextArea viewSource = new RSyntaxTextArea();
+    private RSyntaxTextArea sourceView = new RSyntaxTextArea();
 
     private ClassExport export;
     private SkeletonCodeTools codeTools;
     private IDiagramViewManager diagramViewManager;
 
     public CodeView() {
-        LOG.debug("CodeView.CodeView()");
+        LOG.trace("CodeView.CodeView()");
+        // インスタンス設定
         try {
             ProjectAccessor projectAccessor = ProjectAccessorFactory.getProjectAccessor();
             this.diagramViewManager = projectAccessor.getViewManager().getDiagramViewManager();
@@ -54,16 +52,16 @@ public class CodeView implements IPluginExtraTabView, ProjectEventListener,
         } catch (InvalidUsingException e) {
             LOG.error(e.getMessage(), e);
         }
-        this.diagramViewManager.addEntitySelectionListener(this);
-
-        this.viewSource.setEditable(false);
-        this.viewSource.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PHP);
-        this.viewSource.setCodeFoldingEnabled(true);
-        this.viewSource.setAntiAliasingEnabled(true);
-
         Injector injector = Guice.createInjector(Stage.PRODUCTION, new CodeViewModule());
         this.export = injector.getInstance(ClassExport.class);
         this.codeTools = injector.getInstance(SkeletonCodeTools.class);
+        // 選択リスナに登録
+        this.diagramViewManager.addEntitySelectionListener(this);
+        // ソース表示の設定
+        this.sourceView.setEditable(false);
+        this.sourceView.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PHP);
+        this.sourceView.setCodeFoldingEnabled(false);
+        this.sourceView.setAntiAliasingEnabled(true);
     }
 
     /* IEntitySelectionListener */
@@ -86,50 +84,30 @@ public class CodeView implements IPluginExtraTabView, ProjectEventListener,
 
         try {
             String str = this.export.createSkeletonCode(clazz);
-            this.viewSource.setText(str.replace("\t", "  "));
-            this.viewSource.setCaretPosition(0);
+            this.sourceView.setText(str.replace("\t", "  "));
+            this.sourceView.setCaretPosition(0);
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
         }
-    }
-
-    /* ProjectEventListener */
-
-    @Override
-    public void projectChanged(ProjectEvent event) {
-        LOG.debug("CodeView.projectChanged()");
-    }
-
-    @Override
-    public void projectClosed(ProjectEvent event) {
-        LOG.debug("CodeView.projectClosed()");
-    }
-
-    @Override
-    public void projectOpened(ProjectEvent event) {
-        LOG.debug("CodeView.projectOpened()");
     }
 
     /* IPluginExtraTabView */
 
     @Override
     public void activated() {
-        LOG.debug("CodeView.activated()");
     }
 
     @Override
     public void addSelectionListener(ISelectionListener listener) {
-        LOG.debug("CodeView.addSelectionListener()");
     }
 
     @Override
     public void deactivated() {
-        LOG.debug("CodeView.deactivated()");
     }
 
     @Override
     public Component getComponent() {
-        RTextScrollPane sp = new RTextScrollPane(this.viewSource);
+        RTextScrollPane sp = new RTextScrollPane(this.sourceView);
         sp.setFoldIndicatorEnabled(true);
         return sp;
     }
