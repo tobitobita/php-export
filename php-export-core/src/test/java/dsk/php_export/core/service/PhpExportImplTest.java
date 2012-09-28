@@ -36,12 +36,12 @@ import com.change_vision.jude.api.inf.presentation.IPresentation;
 import com.change_vision.jude.api.inf.project.ProjectAccessor;
 import com.change_vision.jude.api.inf.project.ProjectAccessorFactory;
 
-import dsk.php_export.core.ExportPath;
-import dsk.php_export.core.ExportPath.ChooseState;
-import dsk.php_export.core.ClassExport;
-import dsk.php_export.core.ClassExport.ExportState;
-import dsk.php_export.core.delegate.DataSelect;
-import dsk.php_export.core.exception.ExportException;
+import dsk.export.ClassExport;
+import dsk.export.ClassExport.ExportState;
+import dsk.export.ExportPath;
+import dsk.export.ExportPath.ChooseState;
+import dsk.export.delegate.DataSelect;
+import dsk.export.exception.ExportException;
 
 public class PhpExportImplTest {
     private ProjectAccessor pa;
