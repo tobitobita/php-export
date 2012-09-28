@@ -20,7 +20,4 @@
          </action>
      </actionSet>
    </extension>
-	<extension point="com.change_vision.astah.ui.view">
-		<view id="dsk.php_export.plugin.view.CodeView" type="extraTab" class="dsk.php_export.plugin.view.CodeView" />
-   </extension>
 </plugin>
