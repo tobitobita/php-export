@@ -8,7 +8,7 @@ import com.change_vision.jude.api.inf.project.ProjectAccessor;
 
 import dsk.php_export.core.exception.ExportException;
 
-public interface PhpExport {
+public interface ClassExport {
     public enum ExportState {
         ES_SUCCESS, ES_FAILD
     }

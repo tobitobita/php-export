@@ -2,7 +2,7 @@
 /**
  * ${clazz.name}
  */
-interface ${clazz.name} {
+interface ${clazz.name}${generalizations} {
 ## フィールド
 #foreach($attr in $clazz.attributes)
 #if(!$attr.association)

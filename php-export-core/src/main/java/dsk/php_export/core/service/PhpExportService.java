@@ -35,14 +35,14 @@ import com.change_vision.jude.api.inf.model.IUseCase;
 import com.change_vision.jude.api.inf.project.ProjectAccessor;
 
 import dsk.common.util.IoTools;
+import dsk.export.tools.SkeletonCodeTools;
 import dsk.php_export.core.ExportPath;
 import dsk.php_export.core.ExportPath.ChooseState;
-import dsk.php_export.core.PhpExport;
+import dsk.php_export.core.ClassExport;
 import dsk.php_export.core.delegate.DataSelect;
 import dsk.php_export.core.exception.ExportException;
-import dsk.php_export.core.utils.SkeletonCodeTools;
 
-public class PhpExportService implements PhpExport {
+public class PhpExportService implements ClassExport {
     private static final Logger LOG = LoggerFactory.getLogger(PhpExportService.class);
 
     private ExportPath exportPath;
@@ -106,6 +106,8 @@ public class PhpExportService implements PhpExport {
         VelocityContext context = new VelocityContext();
         context.put("tools", tools);
         context.put("clazz", clazz);
+        // 継承インターフェイス
+        context.put("generalizations", this.tools.createGeneralizationsStr(clazz));
 
         String sourceStr = null;
         StringWriter sw = null;

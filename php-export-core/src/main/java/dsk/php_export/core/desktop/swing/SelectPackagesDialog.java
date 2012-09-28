@@ -30,10 +30,10 @@ import org.slf4j.LoggerFactory;
 
 import com.change_vision.jude.api.inf.model.IClass;
 
+import dsk.export.tools.SkeletonCodeTools;
 import dsk.php_export.core.ExportPath.ChooseState;
 import dsk.php_export.core.delegate.DataBind;
 import dsk.php_export.core.delegate.DataSelect;
-import dsk.php_export.core.utils.SkeletonCodeTools;
 
 public class SelectPackagesDialog extends JDialog implements DataBind<List<IClass>>,
         DataSelect<List<IClass>> {

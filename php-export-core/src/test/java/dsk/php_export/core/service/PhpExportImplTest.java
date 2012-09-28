@@ -38,8 +38,8 @@ import com.change_vision.jude.api.inf.project.ProjectAccessorFactory;
 
 import dsk.php_export.core.ExportPath;
 import dsk.php_export.core.ExportPath.ChooseState;
-import dsk.php_export.core.PhpExport;
-import dsk.php_export.core.PhpExport.ExportState;
+import dsk.php_export.core.ClassExport;
+import dsk.php_export.core.ClassExport.ExportState;
 import dsk.php_export.core.delegate.DataSelect;
 import dsk.php_export.core.exception.ExportException;
 
@@ -85,7 +85,7 @@ public class PhpExportImplTest {
 
     @Test
     public void 選択したクラスが0個() {
-        PhpExport export = new PhpExportService(new ExportPath() {
+        ClassExport export = new PhpExportService(new ExportPath() {
             @Override
             public ChooseState choose() {
                 return ChooseState.OK;
@@ -127,7 +127,7 @@ public class PhpExportImplTest {
 
     @Test
     public void 選択したクラスが1個() {
-        PhpExport export = new PhpExportService(new ExportPath() {
+        ClassExport export = new PhpExportService(new ExportPath() {
             @Override
             public ChooseState choose() {
                 return ChooseState.OK;
@@ -424,12 +424,12 @@ public class PhpExportImplTest {
 
                     @Override
                     public IGeneralization[] getGeneralizations() {
-                        return null;
+                        return new IGeneralization[0];
                     }
 
                     @Override
                     public IAttribute[] getAttributes() {
-                        return null;
+                        return new IAttribute[0];
                     }
                 });
                 return classes;
