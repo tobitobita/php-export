@@ -95,10 +95,10 @@ public class CodeView implements IPluginExtraTabView, IEntitySelectionListener {
             this.sourceView.setCaretPosition(0);
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
-        } catch (Error e) {
+        } catch (NoSuchMethodError e) {
             LOG.error(e.getMessage(), e);
-            JOptionPane.showMessageDialog(null, "Code View Pluginは、6.6.3以下のバージョンには対応していません", "Alert",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Code View Pluginは、6.6.3以下のバージョンには対応していません",
+                    "Alert", JOptionPane.ERROR_MESSAGE);
         }
     }
 
