@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="rootAnchor" prefHeight="365.0" prefWidth="444.0" xmlns:fx="http://javafx.com/fxml" fx:controller="dsk.export.desktop.javafx.controller.SelectPackagesController">
+  <children>
+    <AnchorPane fx:id="listAnchorPane" prefHeight="321.0" prefWidth="444.0" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <ListView fx:id="classListView" focusTraversable="false" prefHeight="307.0" prefWidth="416.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      </children>
+    </AnchorPane>
+    <AnchorPane fx:id="buttonAnchorPane" minHeight="44.0" prefHeight="44.0" prefWidth="444.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <children>
+        <Button fx:id="button" onAction="#handleButtonAction" text="export" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+      </children>
+    </AnchorPane>
+  </children>
+</AnchorPane>
