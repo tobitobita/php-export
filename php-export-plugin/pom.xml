@@ -163,8 +163,8 @@
 				<version>2.3.2</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -293,6 +293,12 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
+			<groupId>dsk</groupId>
+			<artifactId>export-fx</artifactId>
+			<version>[0.0.1,)</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>[1.7.0,)</version>
@@ -350,6 +356,12 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
+		</dependency>
+		<!-- TODO -->
+		<dependency>
+			<groupId>dsk</groupId>
+			<artifactId>dsk-javafx</artifactId>
+			<version>2</version>
 		</dependency>
 	</dependencies>
 </project>
