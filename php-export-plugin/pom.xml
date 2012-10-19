@@ -293,12 +293,6 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>dsk</groupId>
-			<artifactId>export-fx</artifactId>
-			<version>[0.0.1,)</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>[1.7.0,)</version>

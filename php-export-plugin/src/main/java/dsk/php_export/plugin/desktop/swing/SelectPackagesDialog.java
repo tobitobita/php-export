@@ -147,7 +147,7 @@ public class SelectPackagesDialog extends JDialog implements DataBind<List<IClas
     public void bind() {
         DefaultListModel listModel = new DefaultListModel();
         for (IClass clazz : dataBindObject) {
-            ModelCheckBox<IClass> checkBox = new ModelCheckBox<IClass>();
+            JModelCheckBox<IClass> checkBox = new JModelCheckBox<IClass>();
             String namespace = tools.getNamespace(clazz).replace("\\", ".");
             StringBuilder sb = new StringBuilder(clazz.getName());
             if (!StringUtils.isEmpty(namespace)) {
@@ -183,7 +183,7 @@ public class SelectPackagesDialog extends JDialog implements DataBind<List<IClas
         int size = model.getSize();
         for (int i = 0; i < size; ++i) {
             @SuppressWarnings("unchecked")
-            ModelCheckBox<IClass> checkBox = (ModelCheckBox<IClass>) model.getElementAt(i);
+            JModelCheckBox<IClass> checkBox = (JModelCheckBox<IClass>) model.getElementAt(i);
             if (checkBox.isSelected()) {
                 selectedClasses.add(checkBox.getObject());
             }

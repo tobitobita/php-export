@@ -23,7 +23,12 @@ import dsk.php_export.plugin.module.PhpExportModule;
 public class PhpExportAction implements IPluginActionDelegate {
     private static final Logger LOG = LoggerFactory.getLogger(PhpExportAction.class);
 
-    public Object run(IWindow window) throws UnExpectedException {
+    public Object run(final IWindow window) throws UnExpectedException {
+        execute(window);
+        return null;
+    }
+
+    private void execute(final IWindow window) throws UnExpectedException {
         try {
             Injector injector = Guice.createInjector(Stage.PRODUCTION, new PhpExportModule());
             ClassExport export = injector.getInstance(ClassExport.class);
@@ -50,12 +55,6 @@ public class PhpExportAction implements IPluginActionDelegate {
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
             throw new UnExpectedException();
-        } catch (NoSuchMethodError e) {
-            LOG.error(e.getMessage(), e);
-            JOptionPane.showMessageDialog(window.getParent(), "6.6.4以降で実行してください", "",
-                    JOptionPane.ERROR_MESSAGE);
-            throw new UnExpectedException();
         }
-        return null;
     }
 }
