@@ -2,6 +2,9 @@ package dsk.php_export.plugin.desktop.javafx;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -14,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.change_vision.jude.api.inf.model.IClass;
 
+import dsk.common.exception.DskRuntimeException;
 import dsk.export.ExportPath.ChooseState;
 import dsk.export.delegate.DataSelect;
 import dsk.php_export.plugin.desktop.javafx.application.SelectPackagesApplication;
@@ -48,10 +52,10 @@ public class SelectPackagesDialog4Fx extends JDialog implements DataSelect<List<
         final JFXPanel fxPanel = new JFXPanel();
         this.add(fxPanel);
         this.init = true;
-        // JavaFXのThreadでsetSceneすること
-        Platform.runLater(new Runnable() {
+        // JavaFXのThreadを使用すること
+        FutureTask<Void> futureTask = new FutureTask<>(new Callable<Void>() {
             @Override
-            public void run() {
+            public Void call() throws Exception {
                 SelectPackagesApplication app = new SelectPackagesApplication();
                 app.setClassLoader(classLoader);
                 fxPanel.setScene(app.createScene());
@@ -63,8 +67,15 @@ public class SelectPackagesDialog4Fx extends JDialog implements DataSelect<List<
                         setVisible(false);
                     }
                 });
+                return null;
             }
         });
+        Platform.runLater(futureTask);
+        try {
+            futureTask.get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new DskRuntimeException(e);
+        }
     }
 
     /* select window */
@@ -81,12 +92,6 @@ public class SelectPackagesDialog4Fx extends JDialog implements DataSelect<List<
     public ChooseState select() {
         chooseState = ChooseState.CANCEL;
         this.initUI();
-        // TODO !!!!
-        try {
-            Thread.sleep(1000L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -99,25 +104,25 @@ public class SelectPackagesDialog4Fx extends JDialog implements DataSelect<List<
 
     @Override
     public List<IClass> getSelectedData() {
-        final List<IClass> list = new ArrayList<>();
-        Platform.runLater(new Runnable() {
+        FutureTask<List<IClass>> run = new FutureTask<>(new Callable<List<IClass>>() {
             @Override
-            public void run() {
+            public List<IClass> call() throws Exception {
+                List<IClass> theList = new ArrayList<>();
                 ObservableList<ModelCheckBox> items = controller.getClassListView().getItems();
                 for (int i = 0; i < items.size(); ++i) {
                     ModelCheckBox modelCheckBox = items.get(i);
                     if (modelCheckBox.isSelected()) {
-                        list.add(modelCheckBox.getIClass());
+                        theList.add(modelCheckBox.getIClass());
                     }
                 }
+                return theList;
             }
         });
-        // TODO !!!!
+        Platform.runLater(run);
         try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            return run.get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new DskRuntimeException(e);
         }
-        return list;
     }
 }
