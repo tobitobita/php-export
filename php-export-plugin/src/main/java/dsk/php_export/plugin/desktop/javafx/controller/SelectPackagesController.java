@@ -29,70 +29,75 @@ import dsk.php_export.plugin.desktop.javafx.ModelCheckBox;
  * TODO JavaFX
  * 
  */
-public class SelectPackagesController implements Initializable, DataBind<List<IClass>> {
-    private static final Logger LOG = LoggerFactory.getLogger(SelectPackagesController.class);
+public class SelectPackagesController implements Initializable,
+		DataBind<List<IClass>> {
+	private static final Logger LOG = LoggerFactory
+			.getLogger(SelectPackagesController.class);
 
-    // TODO delegate
-    private CloseDialog closeDialog;
+	// TODO delegate
+	private CloseDialog closeDialog;
 
-    @FXML
-    private ListView<ModelCheckBox> classListView;
+	@FXML
+	private ListView<ModelCheckBox> classListView;
 
-    @Override
-    public void initialize(URL url, ResourceBundle bundle) {
-        this.initUI();
-    }
+	@Override
+	public void initialize(URL url, ResourceBundle bundle) {
+		this.initUI();
+	}
 
-    private void initUI() {
-        this.classListView.getSelectionModel().setSelectionMode(SINGLE);
-        this.classListView
-                .setCellFactory(new Callback<ListView<ModelCheckBox>, ListCell<ModelCheckBox>>() {
-                    @Override
-                    public ListCell<ModelCheckBox> call(ListView<ModelCheckBox> listView) {
-                        return new ListCell<ModelCheckBox>() {
-                            @Override
-                            public void updateItem(ModelCheckBox item, boolean empty) {
-                                super.updateItem(item, empty);
-                                this.setGraphic(item);
-                            }
-                        };
-                    }
-                });
-    }
+	private void initUI() {
+		this.classListView.getSelectionModel().setSelectionMode(SINGLE);
+		this.classListView
+				.setCellFactory(new Callback<ListView<ModelCheckBox>, ListCell<ModelCheckBox>>() {
+					@Override
+					public ListCell<ModelCheckBox> call(
+							ListView<ModelCheckBox> listView) {
+						return new ListCell<ModelCheckBox>() {
+							@Override
+							public void updateItem(ModelCheckBox item,
+									boolean empty) {
+								super.updateItem(item, empty);
+								this.setGraphic(item);
+							}
+						};
+					}
+				});
+	}
 
-    @FXML
-    private void handleButtonAction(ActionEvent e) {
-        LOG.trace("ButtonAction");
-        this.closeDialog.closeByOk();
-    }
+	@FXML
+	private void handleButtonAction(ActionEvent e) {
+		LOG.trace("ButtonAction");
+		this.closeDialog.closeByOk();
+	}
 
-    /* Data binging */
+	/* Data binging */
 
-    private List<IClass> dataBindObject = new ArrayList<IClass>();
+	private List<IClass> dataBindObject = new ArrayList<IClass>();
 
-    @Override
-    public DataBind<List<IClass>> setDataBindObject(List<IClass> dataBindObject) {
-        this.dataBindObject = dataBindObject;
-        return this;
-    }
+	@Override
+	public DataBind<List<IClass>> setDataBindObject(List<IClass> dataBindObject) {
+		this.dataBindObject = dataBindObject;
+		return this;
+	}
 
-    @Override
-    public void bind() {
-        List<ModelCheckBox> list = new ArrayList<>();
-        for (IClass data : this.dataBindObject) {
-            list.add(new ModelCheckBox(data));
-        }
-        ObservableList<ModelCheckBox> oList = FXCollections.observableArrayList(list);
-        this.classListView.setItems(oList);
-    }
+	@Override
+	public void bind() {
+		List<ModelCheckBox> list = new ArrayList<ModelCheckBox>();
+		for (IClass data : this.dataBindObject) {
+			list.add(new ModelCheckBox(data));
+		}
+		ObservableList<ModelCheckBox> oList = FXCollections
+				.observableArrayList(list);
+		this.classListView.setItems(oList);
+	}
 
-    /* setter, getter */
+	/* setter, getter */
 
-    public ListView<ModelCheckBox> getClassListView() {
-        return classListView;
-    }
+	public ListView<ModelCheckBox> getClassListView() {
+		return classListView;
+	}
 
-    public void setCloseDialog(CloseDialog dialog) {
-        this.closeDialog = dialog;
-    }
+	public void setCloseDialog(CloseDialog dialog) {
+		this.closeDialog = dialog;
+	}
 }
