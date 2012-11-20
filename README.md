@@ -1,17 +1,32 @@
-php-export
+php-Export Plug-in
 ==========
-ƒNƒ‰ƒX‚ğ‚à‚Æ‚ÉPHP‚ÌƒXƒPƒ‹ƒgƒ“ƒR[ƒh‚ğo—Í‚µ‚Ü‚·B
+It exports PHP code of Classes
+ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½PHPï¿½ÌƒXï¿½Pï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Rï¿½[ï¿½hï¿½ï¿½ï¿½oï¿½Í‚ï¿½ï¿½Ü‚ï¿½ï¿½B
 
-‘Î‰‚·‚éastah
+Supported version of Astah
 ==========
-6.6.4ˆÈ~‚Ì‚·‚×‚Ä‚ÌƒGƒfƒBƒVƒ‡ƒ“B
+Astah Professional, UML and Community 6.6.4 or later (Download: http://astah.net/download)
+6.6.4ï¿½È~ï¿½Ì‚ï¿½ï¿½×‚áº´Gï¿½fï¿½Bï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½B
 
-ƒCƒ“ƒXƒg[ƒ‹
+How to install
 ==========
-Downloads‚æ‚èphp-export-x.x.x.jar‚ğƒ_ƒEƒ“ƒ[ƒh‚µApluginsƒtƒHƒ‹ƒ_‚ÉƒRƒs[‚µ‚Ä‚­‚¾‚³‚¢B
+Download .jar file and save it under "plugins" folder in Astah Installation folder.
+php-export-x.x.x.jar : Adds a menu to export PHP code
+code-view-x.x.x.jar : Shows PHP code of selected model in the bottom view
+Downloadsï¿½ï¿½ï¿½ï¿½php-export-x.x.x.jarï¿½ï¿½ï¿½_ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½ï¿½ï¿½Apluginsï¿½tï¿½Hï¿½ï¿½ï¿½_ï¿½ÉƒRï¿½sï¿½[ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 
-g‚¢•û
+How to use
 ==========
-1. [ƒc[ƒ‹] - [PHP] - [Export PHP c] ‚ğ‘I‘ğ‚µ‚Ü‚·B
-2. ˆê——‚ª•\¦‚³‚ê‚é‚Ì‚ÅAo—Í‚µ‚½‚¢ƒNƒ‰ƒX‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
-3. ƒ_ƒCƒAƒƒO‚ª•\¦‚³‚ê‚é‚Ì‚ÅAo—ÍæƒtƒHƒ‹ƒ_‚ğ‘I‘ğ‚µAOKƒ{ƒ^ƒ“‚ğ‰Ÿ‰º‚µ‚Ä‚­‚¾‚³‚¢B
+How to export PHP code (php-export-x.x.x.jar)
+1. Select [Tool] - [PHP] - [Export PHP]
+2. A list of Classes appear, select Classes you want to export
+3. Select where you want it to export and then click [OK]
+1. [ï¿½cï¿½[ï¿½ï¿½] - [PHP] - [Export PHP ï¿½c] ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+2. ï¿½ê——ï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅAï¿½oï¿½Í‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+3. ï¿½_ï¿½Cï¿½Aï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ÅAï¿½oï¿½Íï¿½ï¿½tï¿½Hï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½AOKï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+
+How to view
+==========
+After installing the code-view-x.x.x.jar, [Code View] is added in the pane below the Diagram Editor.
+To open/hide the pane, go to [View] - [Show/Hide Extra View]
+
