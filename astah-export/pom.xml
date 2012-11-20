@@ -8,7 +8,7 @@
 		<dependency>
 			<groupId>dsk</groupId>
 			<artifactId>dsk-common</artifactId>
-			<version>[7,)</version>
+			<version>8</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

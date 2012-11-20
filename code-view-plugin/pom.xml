@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<properties>
 		<bundle.symbolicName>dsk.code-view</bundle.symbolicName>
 		<bundle.namespace>dsk.codeview.plugin</bundle.namespace>
@@ -194,13 +195,15 @@
 						</goals>
 					</execution>
 				</executions>
-				<!-- | the following instructions build a simple set of public/private classes into an OSGi bundle -->
+				<!-- | the following instructions build a simple set of public/private 
+					classes into an OSGi bundle -->
 				<configuration>
 					<instructions>
 						<unpackBundle>true</unpackBundle>
 						<Bundle-SymbolicName>${bundle.symbolicName}; singleton:=true</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						<!-- | assume public classes are in the top package, and private classes are under ".internal" -->
+						<!-- | assume public classes are in the top package, and private classes 
+							are under ".internal" -->
 						<Export-Package>!${bundle.namespace}.internal.*,${bundle.namespace}.*;version="${project.version}"</Export-Package>
 						<Private-Package>${bundle.namespace}.internal.*</Private-Package>
 						<Bundle-Activator>${bundle.namespace}.Activator</Bundle-Activator>
@@ -255,6 +258,7 @@
 			<version>${astah.version}</version>
 			<scope>system</scope>
 			<systemPath>${astahPath}/astah-api.jar</systemPath>
+			<!-- <systemPath>/Applications/astah professional/astah professional.app/Contents/Resources/Java/astah-api.jar</systemPath> -->
 		</dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>
@@ -289,40 +293,40 @@
 		<dependency>
 			<groupId>dsk</groupId>
 			<artifactId>astah-export</artifactId>
-			<version>[0.0.3,)</version>
+			<version>0.0.3</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>dsk</groupId>
 			<artifactId>php-export-core</artifactId>
-			<version>[0.0.5,)</version>
+			<version>0.0.5</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>[1.7.0,)</version>
+			<version>1.7.2</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>[1.0.7,)</version>
+			<version>1.0.7</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
-			<version>[1.0.7,)</version>
+			<version>1.0.7</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>[3.1,)</version>
+			<version>3.1</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -335,7 +339,7 @@
 		<dependency>
 			<groupId>dsk</groupId>
 			<artifactId>dsk-common</artifactId>
-			<version>[6,)</version>
+			<version>8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
@@ -345,7 +349,7 @@
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>rsyntaxtextarea</artifactId>
-			<version>[2.0,)</version>
+			<version>2.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.inject</groupId>
@@ -355,7 +359,7 @@
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
-			<version>[3.2.1,)</version>
+			<version>3.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
