@@ -31,11 +31,9 @@ public class SkeletonCodeTools {
 	public String getNamespace(IClass iClass) {
 		StringBuilder sb = new StringBuilder();
 		IElement owner = iClass.getOwner();
-		while (owner != null && owner instanceof INamedElement
-				&& owner.getOwner() != null) {
+		while (owner != null && owner instanceof INamedElement && owner.getOwner() != null) {
 			// namespace Zend\Cache;
-			sb.insert(0,
-					String.format("%s\\", ((INamedElement) owner).getName()));
+			sb.insert(0, String.format("%s\\", ((INamedElement) owner).getName()));
 			owner = owner.getOwner();
 		}
 		if (0 < sb.length()) {
@@ -109,16 +107,11 @@ public class SkeletonCodeTools {
 		}
 		String str = "null";
 		String type = clazz.getName();
-		if ("char".equalsIgnoreCase(type) || "byte".equalsIgnoreCase(type)
-				|| "short".equalsIgnoreCase(type)
-				|| "int".equalsIgnoreCase(type)
-				|| "integer".equalsIgnoreCase(type)
-				|| "long".equalsIgnoreCase(type)
-				|| "float".equalsIgnoreCase(type)
-				|| "double".equalsIgnoreCase(type)) {
+		if ("char".equalsIgnoreCase(type) || "byte".equalsIgnoreCase(type) || "short".equalsIgnoreCase(type)
+				|| "int".equalsIgnoreCase(type) || "integer".equalsIgnoreCase(type) || "long".equalsIgnoreCase(type)
+				|| "float".equalsIgnoreCase(type) || "double".equalsIgnoreCase(type)) {
 			str = "0";
-		} else if ("bool".equalsIgnoreCase(type)
-				|| "boolean".equalsIgnoreCase(type)) {
+		} else if ("bool".equalsIgnoreCase(type) || "boolean".equalsIgnoreCase(type)) {
 			str = "false";
 		} else if ("string".equalsIgnoreCase(type)) {
 			str = "\"\"";
@@ -130,8 +123,7 @@ public class SkeletonCodeTools {
 
 	public boolean isClass(IElement model) {
 		if (model instanceof IClass
-				&& !(model instanceof IUseCase || model instanceof ITestCase
-						|| model instanceof ISubsystem
+				&& !(model instanceof IUseCase || model instanceof ITestCase || model instanceof ISubsystem
 						|| model instanceof IRequirement || model instanceof IAssociationClass)) {
 			return true;
 		}
@@ -171,11 +163,12 @@ public class SkeletonCodeTools {
 		return sb.toString();
 	}
 
-	public String createDefinitionStr(IClass clazz, String space) {
-		// TODO clazz.getDefinition
-		String definition = "TODO Auto-generated comment.";
-		return String.format(
-				space + "/**\n" + space + " * %s\n" + space + " */",
+	public String createDefinitionStr(INamedElement namedElement, String space) {
+		String definition = namedElement.getDefinition();
+		if (StringUtils.isEmpty(definition)) {
+			definition = "TODO Auto-generated comment.";
+		}
+		return String.format(space + "/**\n" + space + " * %s\n" + space + " */",
 				definition.replace("\n", "\n" + space + " * "));
 	}
 
