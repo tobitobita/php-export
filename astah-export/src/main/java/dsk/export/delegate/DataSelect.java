@@ -1,11 +1,11 @@
 package dsk.export.delegate;
 
-import dsk.export.ExportPath.ChooseState;
+import dsk.common.message.ChooseState;
 
 public interface DataSelect<E> {
-    void setData(E data);
+	void setData(E data);
 
-    ChooseState select();
+	ChooseState select();
 
-    E getSelectedData();
+	E getSelectedData();
 }

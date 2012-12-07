@@ -1,11 +1,9 @@
 package dsk.export;
 
+import dsk.common.message.ChooseState;
+
 public interface ExportPath {
-    public enum ChooseState {
-        OK, CANCEL
-    }
+	ChooseState choose();
 
-    ChooseState choose();
-
-    String getChoosePath();
+	String getChoosePath();
 }
