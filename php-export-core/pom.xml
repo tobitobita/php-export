@@ -2,18 +2,18 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>dsk</groupId>
 	<artifactId>php-export-core</artifactId>
-	<version>0.0.5</version>
+	<version>1.0.5</version>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>dsk</groupId>
 			<artifactId>dsk-common</artifactId>
-			<version>8</version>
+			<version>9</version>
 		</dependency>
 		<dependency>
 			<groupId>dsk</groupId>
 			<artifactId>astah-export</artifactId>
-			<version>0.0.3</version>
+			<version>1.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>

@@ -33,8 +33,8 @@ import org.slf4j.LoggerFactory;
 
 import com.change_vision.jude.api.inf.model.IClass;
 
+import dsk.common.message.ChooseState;
 import dsk.common.util.SystemTools;
-import dsk.export.ExportPath.ChooseState;
 import dsk.export.delegate.DataBind;
 import dsk.export.delegate.DataSelect;
 import dsk.export.tools.SkeletonCodeTools;

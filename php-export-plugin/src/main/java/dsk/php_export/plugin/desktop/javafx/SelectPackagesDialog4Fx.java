@@ -18,16 +18,14 @@ import org.slf4j.LoggerFactory;
 import com.change_vision.jude.api.inf.model.IClass;
 
 import dsk.common.exception.DskRuntimeException;
-import dsk.export.ExportPath.ChooseState;
+import dsk.common.message.ChooseState;
 import dsk.export.delegate.DataSelect;
 import dsk.php_export.plugin.desktop.javafx.application.SelectPackagesApplication;
 import dsk.php_export.plugin.desktop.javafx.controller.SelectPackagesController;
 
-public class SelectPackagesDialog4Fx extends JDialog implements
-		DataSelect<List<IClass>> {
+public class SelectPackagesDialog4Fx extends JDialog implements DataSelect<List<IClass>> {
 	private static final long serialVersionUID = -4826721813465939774L;
-	private static final Logger LOG = LoggerFactory
-			.getLogger(SelectPackagesDialog4Fx.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SelectPackagesDialog4Fx.class);
 
 	private ChooseState chooseState = ChooseState.CANCEL;
 
@@ -55,24 +53,23 @@ public class SelectPackagesDialog4Fx extends JDialog implements
 		this.add(fxPanel);
 		this.init = true;
 		// JavaFXのThreadを使用すること
-		FutureTask<Void> futureTask = new FutureTask<Void>(
-				new Callable<Void>() {
+		FutureTask<Void> futureTask = new FutureTask<Void>(new Callable<Void>() {
+			@Override
+			public Void call() throws Exception {
+				SelectPackagesApplication app = new SelectPackagesApplication();
+				app.setClassLoader(classLoader);
+				fxPanel.setScene(app.createScene());
+				controller = app.getController();
+				controller.setCloseDialog(new CloseDialog() {
 					@Override
-					public Void call() throws Exception {
-						SelectPackagesApplication app = new SelectPackagesApplication();
-						app.setClassLoader(classLoader);
-						fxPanel.setScene(app.createScene());
-						controller = app.getController();
-						controller.setCloseDialog(new CloseDialog() {
-							@Override
-							public void closeByOk() {
-								chooseState = ChooseState.OK;
-								setVisible(false);
-							}
-						});
-						return null;
+					public void closeByOk() {
+						chooseState = ChooseState.OK;
+						setVisible(false);
 					}
 				});
+				return null;
+			}
+		});
 		Platform.runLater(futureTask);
 		try {
 			futureTask.get();
@@ -109,22 +106,20 @@ public class SelectPackagesDialog4Fx extends JDialog implements
 
 	@Override
 	public List<IClass> getSelectedData() {
-		FutureTask<List<IClass>> run = new FutureTask<List<IClass>>(
-				new Callable<List<IClass>>() {
-					@Override
-					public List<IClass> call() throws Exception {
-						List<IClass> theList = new ArrayList<IClass>();
-						ObservableList<ModelCheckBox> items = controller
-								.getClassListView().getItems();
-						for (int i = 0; i < items.size(); ++i) {
-							ModelCheckBox modelCheckBox = items.get(i);
-							if (modelCheckBox.isSelected()) {
-								theList.add(modelCheckBox.getIClass());
-							}
-						}
-						return theList;
+		FutureTask<List<IClass>> run = new FutureTask<List<IClass>>(new Callable<List<IClass>>() {
+			@Override
+			public List<IClass> call() throws Exception {
+				List<IClass> theList = new ArrayList<IClass>();
+				ObservableList<ModelCheckBox> items = controller.getClassListView().getItems();
+				for (int i = 0; i < items.size(); ++i) {
+					ModelCheckBox modelCheckBox = items.get(i);
+					if (modelCheckBox.isSelected()) {
+						theList.add(modelCheckBox.getIClass());
 					}
-				});
+				}
+				return theList;
+			}
+		});
 		Platform.runLater(run);
 		try {
 			return run.get();

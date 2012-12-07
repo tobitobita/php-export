@@ -9,10 +9,11 @@ import javax.swing.JFileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import dsk.common.annotation.AutoLoad;
-import dsk.common.annotation.AutoStore;
-import dsk.common.annotation.PropertyKey;
 import dsk.common.exception.DskRuntimeException;
+import dsk.common.message.ChooseState;
+import dsk.common.properties.annotation.AutoLoad;
+import dsk.common.properties.annotation.AutoStore;
+import dsk.common.properties.annotation.PropertyKey;
 import dsk.common.util.SystemTools;
 import dsk.export.ExportPath;
 
