@@ -8,7 +8,7 @@ astah professional, UML, community 6.6.4 以降。
 
 インストール方法
 ==========
-[php-export-plugin.jar](https://s3.amazonaws.com/astah_plugins/php-export-plugin-1.0.4.jar "php-export-plugin")をダウンロードし、pluginsフォルダにコピーしてください。
+[php-export-plugin.jar](https://s3.amazonaws.com/astah_plugins/php-export-plugin-1.0.4.jar "php-export-plugin")をダウンロードし、pluginsフォルダにコピーしてください。  
 [code-view-x.x.x.jar](https://s3.amazonaws.com/astah_plugins/code-view-plugin-1.0.1.jar "code-view-plugin")をダウンロードし、pluginsフォルダにコピーしてください。
 
 使用方法
