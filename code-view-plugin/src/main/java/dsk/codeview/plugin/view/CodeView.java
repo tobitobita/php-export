@@ -7,6 +7,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -32,7 +33,9 @@ import com.change_vision.jude.api.inf.view.IEntitySelectionEvent;
 import com.change_vision.jude.api.inf.view.IEntitySelectionListener;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Stage;
+import com.google.inject.TypeLiteral;
 
 import dsk.codeview.plugin.module.CodeViewModule;
 import dsk.common.util.R;
@@ -45,8 +48,9 @@ public class CodeView implements IPluginExtraTabView, IEntitySelectionListener {
 	private static final String MAX_LANGUAGE_NAME = "Javascript";
 
 	private RSyntaxTextArea sourceView = new RSyntaxTextArea();
+	private JComboBox comboBox;
 
-	private ClassExport export;
+	private Map<String, ClassExport> exports;
 	private SkeletonCodeTools codeTools;
 	private IDiagramViewManager diagramViewManager;
 
@@ -54,18 +58,16 @@ public class CodeView implements IPluginExtraTabView, IEntitySelectionListener {
 		LOG.trace("CodeView create.");
 		// インスタンス設定
 		try {
-			ProjectAccessor projectAccessor = ProjectAccessorFactory
-					.getProjectAccessor();
-			this.diagramViewManager = projectAccessor.getViewManager()
-					.getDiagramViewManager();
+			ProjectAccessor projectAccessor = ProjectAccessorFactory.getProjectAccessor();
+			this.diagramViewManager = projectAccessor.getViewManager().getDiagramViewManager();
 		} catch (ClassNotFoundException e) {
 			LOG.error(e.getMessage(), e);
 		} catch (InvalidUsingException e) {
 			LOG.error(e.getMessage(), e);
 		}
-		Injector injector = Guice.createInjector(Stage.PRODUCTION,
-				new CodeViewModule());
-		this.export = injector.getInstance(ClassExport.class);
+		Injector injector = Guice.createInjector(Stage.PRODUCTION, new CodeViewModule());
+		this.exports = injector.getInstance(Key.get(new TypeLiteral<Map<String, ClassExport>>() {
+		}));
 		this.codeTools = injector.getInstance(SkeletonCodeTools.class);
 		// 選択リスナに登録
 		this.diagramViewManager.addEntitySelectionListener(this);
@@ -80,8 +82,11 @@ public class CodeView implements IPluginExtraTabView, IEntitySelectionListener {
 
 	@Override
 	public void entitySelectionChanged(IEntitySelectionEvent event) {
-		IPresentation[] presentations = this.diagramViewManager
-				.getSelectedPresentations();
+		this.displayCode();
+	}
+
+	private void displayCode() {
+		IPresentation[] presentations = this.diagramViewManager.getSelectedPresentations();
 		if (0 >= presentations.length) {
 			return;
 		}
@@ -93,9 +98,8 @@ public class CodeView implements IPluginExtraTabView, IEntitySelectionListener {
 		if (StringUtils.isEmpty(clazz.getName())) {
 			return;
 		}
-
 		try {
-			String str = this.export.createSkeletonCode(clazz);
+			String str = this.exports.get(this.comboBox.getSelectedItem().toString()).createSkeletonCode(clazz);
 			this.sourceView.setText(str.replace("\t", "  "));
 			this.sourceView.setCaretPosition(0);
 		} catch (IOException e) {
@@ -129,15 +133,20 @@ public class CodeView implements IPluginExtraTabView, IEntitySelectionListener {
 		barPane.add(toolBar, BorderLayout.EAST);
 		toolBar.setAlignmentY(Component.CENTER_ALIGNMENT);
 		toolBar.setFloatable(false);
-		JComboBox comboBox = new JComboBox(this.selectedKind());
+		comboBox = new JComboBox(Constants.LANGUAGES);
 		comboBox.setEditable(false);
 		comboBox.setPrototypeDisplayValue(MAX_LANGUAGE_NAME);
 		comboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO 出力選択変更
-				// JComboBox comboBox = (JComboBox) e.getSource();
-				// System.out.println(comboBox.getSelectedItem().toString());
+				JComboBox comboBox = (JComboBox) e.getSource();
+				String language = comboBox.getSelectedItem().toString();
+				if (Constants.PHP.equals(language)) {
+					sourceView.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PHP);
+				} else if (Constants.JAVA.equals(language)) {
+					sourceView.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+				}
+				displayCode();
 			}
 		});
 		toolBar.add(comboBox);
@@ -146,13 +155,6 @@ public class CodeView implements IPluginExtraTabView, IEntitySelectionListener {
 		sp.setFoldIndicatorEnabled(true);
 		contentPane.add(sp);
 		return contentPane;
-	}
-
-	/**
-	 * TODO 出力の種類
-	 */
-	private String[] selectedKind() {
-		return new String[] { "PHP" };
 	}
 
 	@Override
