@@ -1,4 +1,4 @@
-php-Export Plug-in
+PHP-Export Plug-in
 ==========
 It exports PHP code of Classes  
 

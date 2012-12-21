@@ -1,24 +1,26 @@
-php-Export Plug-in
+PHP-Export Plug-in
 ==========
-クラスをもとにPHPのスケルトンコードを出力します。
+クラスをもとにPHPのスケルトンコードを出力します。  
 
-Supported version of Astah
+動作するastah*
 ==========
-astah professional, UML, community 6.6.4 以降。
+astah professional, UML, community 6.6.4 以降。  
 
-How to install
+インストール方法
 ==========
-Downloadsよりphp-export-x.x.x.jarをダウンロードし、pluginsフォルダにコピーしてください。
+[php-export-plugin.jar](https://s3.amazonaws.com/astah_plugins/php-export-plugin-1.0.4.jar "php-export-plugin")をダウンロードし、pluginsフォルダにコピーしてください。
 
-How to use
+使用方法
 ==========
 How to export PHP code (php-export-x.x.x.jar)
-1. [ツール] - [PHP] - [Export PHP …] を選択します。
-2. 一覧が表示されるので、出力したいクラスを選択してください。
-3. ダイアログが表示されるので、出力先フォルダを選択し、OKボタンを押下してください。
+1. [ツール] - [PHP] - [Export PHP …] を選択します。  
+2. 一覧が表示されるので、出力したいクラスを選択してください。  
+3. ダイアログが表示されるので、出力先フォルダを選択し、OKボタンを押下してください。  
 
 How to view
 ==========
+[code-view-x.x.x.jar](https://s3.amazonaws.com/astah_plugins/code-view-plugin-1.0.1.jar "code-view-plugin")をダウンロードし、pluginsフォルダにコピーしてください。
+
 After installing the code-view-x.x.x.jar, [Code View] is added in the pane below the Diagram Editor.
-To open/hide the pane, go to [View] - [Show/Hide Extra View]
+To open/hide the pane, go to [View] - [Show/Hide Extra View]  
 
