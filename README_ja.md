@@ -22,8 +22,8 @@ How to export PHP code (php-export-x.x.x.jar)
 
 3. ダイアログが表示されるので、出力先フォルダを選択し、OKボタンを押下してください。  
 
-How to view
+Viewについて
 ==========
-After installing the code-view-x.x.x.jar, [Code View] is added in the pane below the Diagram Editor.
-To open/hide the pane, go to [View] - [Show/Hide Extra View]  
+cide-view-plugin.jarをインストールすると、ダイアグラムエディタの下に[Code View]が追加されます。
+表示・非表示は、[表示] - [拡張ビューの表示／非表示]より行います。  
 ![codeview](https://raw.github.com/tobitobita/php-export/master/img/codeview.png)  
