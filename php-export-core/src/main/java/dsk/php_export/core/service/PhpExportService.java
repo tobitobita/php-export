@@ -15,6 +15,10 @@ import dsk.export.utils.AstahModelUtil;
 
 public class PhpExportService extends AbstractExportService {
 
+	public PhpExportService() {
+		super();
+	}
+
 	@Inject
 	public PhpExportService(ExportPath exportPath, DataSelect<List<IClass>> dataSelect,
 			@Named("checkbox") Message<Boolean> message, AstahModelUtil astahModelUtil) {
