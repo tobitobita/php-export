@@ -160,10 +160,10 @@ public class SelectPackagesDialog extends JDialog implements DataBind<List<IClas
 		DefaultListModel listModel = new DefaultListModel();
 		for (IClass clazz : dataBindObject) {
 			JModelCheckBox<IClass> checkBox = new JModelCheckBox<IClass>();
-			String namespace = tools.getNamespace(clazz).replace("\\", ".");
+			String namespace = tools.getNamespace(clazz, "\\");
 			StringBuilder sb = new StringBuilder(clazz.getName());
 			if (!StringUtils.isEmpty(namespace)) {
-				sb.insert(0, ".");
+				sb.insert(0, "\\");
 				sb.insert(0, namespace);
 			}
 			checkBox.setObject(clazz);
