@@ -1,0 +1,22 @@
+#if("" != ${tools.getNamespace($clazz, ".")})package ${tools.getNamespace($clazz, ".")};
+#end${tools.createDefinitionStr($clazz, "")}
+${tools.toAbstractStr($clazz)}class ${clazz.name}${generalizations} {
+## フィールド
+#foreach($attr in $clazz.attributes)
+#if("" != $attr.name)
+${tools.createDefinitionStr($attr, "	")}
+	${tools.getVisibilityString($attr)} ${tools.getFieldString($attr)};
+#end
+#end
+## メソッド
+#foreach($operation in $clazz.operations)
+
+${tools.createDefinitionStr($operation, "	")}
+	${tools.getVisibilityString($operation)} function ${tools.getOperationString($operation)}(${tools.createParameterString($operation.parameters)}) {
+#set($return = $tools.getReturnString($operation))
+#if("" != $return)
+		return ${return};
+#end
+	}
+#end
+}

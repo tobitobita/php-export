@@ -1,0 +1,16 @@
+/**
+ * ${clazz.name}
+ */
+interface ${clazz.name}${generalizations} {
+## フィールド
+#foreach($attr in $clazz.attributes)
+#if(!$attr.association)
+	const ${attr.name} = ;
+#end
+#end
+## メソッド
+#foreach($operation in $clazz.operations)
+
+	${tools.getVisibilityString($operation)} function ${tools.getOperationString($operation)}(${tools.createParameterString($operation.parameters)});
+#end
+}
