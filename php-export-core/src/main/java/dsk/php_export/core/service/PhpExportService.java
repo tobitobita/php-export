@@ -10,7 +10,6 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -24,15 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.change_vision.jude.api.inf.exception.ProjectNotFoundException;
-import com.change_vision.jude.api.inf.model.IAssociationClass;
 import com.change_vision.jude.api.inf.model.IClass;
-import com.change_vision.jude.api.inf.model.IModel;
-import com.change_vision.jude.api.inf.model.INamedElement;
-import com.change_vision.jude.api.inf.model.IPackage;
-import com.change_vision.jude.api.inf.model.IRequirement;
-import com.change_vision.jude.api.inf.model.ISubsystem;
-import com.change_vision.jude.api.inf.model.ITestCase;
-import com.change_vision.jude.api.inf.model.IUseCase;
 import com.change_vision.jude.api.inf.project.ProjectAccessor;
 
 import dsk.common.message.ChooseState;
@@ -43,6 +34,8 @@ import dsk.export.ExportPath;
 import dsk.export.delegate.DataSelect;
 import dsk.export.exception.ExportException;
 import dsk.export.tools.SkeletonCodeTools;
+import dsk.export.utils.AstahModelUtil;
+import dsk.export.utils.ClassFilter;
 
 public class PhpExportService implements ClassExport {
 	private static final Logger LOG = LoggerFactory.getLogger(PhpExportService.class);
@@ -55,29 +48,26 @@ public class PhpExportService implements ClassExport {
 
 	private SkeletonCodeTools tools = new SkeletonCodeTools();
 
+	private AstahModelUtil astahModelUtil;
+
 	public PhpExportService() {
 		super();
 	}
 
 	@Inject
 	public PhpExportService(ExportPath exportPath, DataSelect<List<IClass>> dataSelect,
-			@Named("checkbox") Message<Boolean> message) {
+			@Named("checkbox") Message<Boolean> message, AstahModelUtil astahModelUtil) {
 		super();
 		this.exportPath = exportPath;
 		this.dataSelect = dataSelect;
 		this.message = message;
+		this.astahModelUtil = astahModelUtil;
 	}
 
 	public ExportState export(ProjectAccessor projectAccessor) throws ProjectNotFoundException, IOException,
 			ExportException {
-		IModel model = projectAccessor.getProject();
-		LOG.trace("get package.");
-		List<IPackage> packageList = getPackageList(model, new ArrayList<IPackage>());
-		for (IPackage p : packageList) {
-			LOG.trace(p.getName());
-		}
 		LOG.trace("get class.");
-		List<IClass> classes = getClassList(model, new ArrayList<IClass>());
+		List<IClass> classes = this.astahModelUtil.getClasses(projectAccessor.getProject(), new ClassFilter());
 		// ファイル選択
 		this.dataSelect.setData(classes);
 		if (ChooseState.CANCEL == this.dataSelect.select()) {
@@ -178,55 +168,5 @@ public class PhpExportService implements ClassExport {
 			}
 			return this.classTemplate;
 		}
-	}
-
-	/**
-	 * 指定パッケージ配下のパッケージを、再帰的に全て取得する。
-	 * 
-	 * @param thePackage
-	 *            指定パッケージ
-	 * @param packageList
-	 *            パッケージ一覧を格納するリスト
-	 * @return パッケージ一覧を格納したリスト
-	 */
-	private List<IPackage> getPackageList(IPackage model, List<IPackage> packageList) {
-		INamedElement[] namedElements = model.getOwnedElements();
-		for (INamedElement namedElement : namedElements) {
-			if (namedElement instanceof IPackage) {
-				IPackage p = (IPackage) namedElement;
-				packageList.add(p);
-				getPackageList(p, packageList);
-			}
-		}
-		return packageList;
-	}
-
-	/**
-	 * 指定パッケージ配下のクラスを、再帰的に全て取得する。
-	 * 
-	 * @param thePackage
-	 *            指定パッケージ
-	 * @param classList
-	 *            パッケージ一覧を格納するリスト
-	 * @return パッケージ一覧を格納したリスト
-	 */
-	private List<IClass> getClassList(IPackage model, List<IClass> classList) {
-		if (null == model) {
-			return classList;
-		}
-		INamedElement[] namedElements = model.getOwnedElements();
-		for (INamedElement namedElement : namedElements) {
-			if (namedElement instanceof IClass
-					&& !(namedElement instanceof IUseCase || namedElement instanceof ITestCase
-							|| namedElement instanceof ISubsystem || namedElement instanceof IRequirement || namedElement instanceof IAssociationClass)) {
-				IClass c = (IClass) namedElement;
-				classList.add(c);
-			}
-			if (namedElement instanceof IPackage) {
-				IPackage p = (IPackage) namedElement;
-				getClassList(p, classList);
-			}
-		}
-		return classList;
 	}
 }

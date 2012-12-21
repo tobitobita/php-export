@@ -43,6 +43,7 @@ import dsk.export.ClassExport.ExportState;
 import dsk.export.ExportPath;
 import dsk.export.delegate.DataSelect;
 import dsk.export.exception.ExportException;
+import dsk.export.utils.AstahModelUtil;
 
 public class PhpExportImplTest {
 	private ProjectAccessor pa;
@@ -86,6 +87,7 @@ public class PhpExportImplTest {
 
 	@Test
 	public void 選択したクラスが0個() {
+		System.out.println("PhpExportImplTest.選択したクラスが0個()");
 		ClassExport export = new PhpExportService(new ExportPath() {
 			@Override
 			public ChooseState choose() {
@@ -121,7 +123,7 @@ public class PhpExportImplTest {
 			public Boolean getValue() {
 				return false;
 			}
-		});
+		}, new AstahModelUtil());
 		try {
 			Assert.assertEquals(ExportState.ES_FAILD, export.export(pa));
 		} catch (ProjectNotFoundException e) {
@@ -138,6 +140,7 @@ public class PhpExportImplTest {
 
 	@Test
 	public void 選択したクラスが1個() {
+		System.out.println("PhpExportImplTest.選択したクラスが1個()");
 		ClassExport export = new PhpExportService(new ExportPath() {
 			@Override
 			public ChooseState choose() {
@@ -453,7 +456,7 @@ public class PhpExportImplTest {
 			public Boolean getValue() {
 				return false;
 			}
-		});
+		}, new AstahModelUtil());
 		try {
 			Assert.assertEquals(ExportState.ES_SUCCESS, export.export(pa));
 		} catch (ProjectNotFoundException e) {
