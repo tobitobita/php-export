@@ -28,12 +28,11 @@ public class SkeletonCodeTools {
 	 *            クラス
 	 * @return クラス名（フルパス）
 	 */
-	public String getNamespace(IClass iClass) {
+	public String getNamespace(IClass iClass, String sep) {
 		StringBuilder sb = new StringBuilder();
 		IElement owner = iClass.getOwner();
 		while (owner != null && owner instanceof INamedElement && owner.getOwner() != null) {
-			// namespace Zend\Cache;
-			sb.insert(0, String.format("%s\\", ((INamedElement) owner).getName()));
+			sb.insert(0, String.format("%s%s", ((INamedElement) owner).getName(), sep));
 			owner = owner.getOwner();
 		}
 		if (0 < sb.length()) {

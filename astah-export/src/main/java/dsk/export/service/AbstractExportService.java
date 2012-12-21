@@ -91,8 +91,7 @@ public abstract class AbstractExportService implements ClassExport {
 	}
 
 	private void printSkeletonCode(String exportDirPath, IClass clazz) throws IOException {
-		this.write(exportDirPath, tools.getNamespace(clazz).replace("\\", "/"), clazz.getName(),
-				this.createSkeletonCode(clazz));
+		this.write(exportDirPath, tools.getNamespace(clazz, "/"), clazz.getName(), this.createSkeletonCode(clazz));
 	}
 
 	@Override
@@ -149,25 +148,18 @@ public abstract class AbstractExportService implements ClassExport {
 		return !this.message.getValue();
 	}
 
-	private Template interfaceTemplate;
-	private Template classTemplate;
-
 	private Template getTemplate(String type) throws IOException {
 		Properties p = new Properties();
 		p.load(getClass().getClassLoader().getResourceAsStream("velocity.properties"));
 		VelocityEngine velocity = new VelocityEngine();
 		velocity.init(p);
+		Template t = null;
 		if ("interface".equals(type)) {
-			if (null == this.interfaceTemplate) {
-				this.interfaceTemplate = velocity.getTemplate(this.getInterfaceTemplateName());
-			}
-			return this.interfaceTemplate;
+			t = velocity.getTemplate(this.getInterfaceTemplateName());
 		} else {
-			if (null == this.classTemplate) {
-				this.classTemplate = velocity.getTemplate(this.getClassTemplateName());
-			}
-			return this.classTemplate;
+			t = velocity.getTemplate(this.getClassTemplateName());
 		}
+		return t;
 	}
 
 	protected abstract String getClassTemplateName();
