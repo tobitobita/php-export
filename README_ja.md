@@ -13,7 +13,8 @@ astah professional, UML, community 6.6.4 以降。
 
 使用方法
 ==========
-How to export PHP code (php-export-x.x.x.jar)
+PHP出力方法
+
 1. [ツール] - [PHP] - [Export PHP …] を選択します。  
 ![menu](https://raw.github.com/tobitobita/php-export/master/img/menu.png)  
   
