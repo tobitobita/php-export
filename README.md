@@ -9,8 +9,8 @@ Astah Professional, UML and Community 6.6.4 or later (Download: http://astah.net
 How to install
 ==========
 Download .jar file and save it under "plugins" folder in Astah Installation folder.
-php-export-x.x.x.jar : Adds a menu to export PHP code
-code-view-x.x.x.jar : Shows PHP code of selected model in the bottom view
+[php-export-plugin.jar](https://s3.amazonaws.com/astah_plugins/php-export-plugin-1.0.4.jar "php-export-plugin") : Adds a menu to export PHP code
+[code-view-x.x.x.jar](https://s3.amazonaws.com/astah_plugins/code-view-plugin-1.0.1.jar "code-view-plugin") : Shows PHP code of selected model in the bottom view
 
 How to use
 ==========
