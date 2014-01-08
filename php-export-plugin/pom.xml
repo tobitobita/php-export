@@ -347,10 +347,10 @@
 			<version>2</version> </dependency> -->
 		<dependency>
 			<groupId>javafx</groupId>
-			<artifactId>javafx</artifactId>
-			<version>2.0</version>
+			<artifactId>javafx-rt</artifactId>
+			<version>1.7.0-u21</version>
 			<scope>system</scope>
-			<systemPath>/Library/Java/JavaVirtualMachines/jdk1.7.0_09.jdk/Contents/Home/jre/lib/jfxrt.jar</systemPath>
+			<systemPath>${env.JAVA_HOME}/jre/lib/jfxrt.jar</systemPath>
 		</dependency>
 	</dependencies>
 </project>
